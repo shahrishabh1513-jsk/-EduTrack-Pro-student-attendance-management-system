@@ -1,0 +1,227 @@
+edutrack-pro/
+│
+├── index.html (redirect to login)
+├── login.html
+│
+├── assets/
+│   ├── css/
+│   │   ├── style.css
+│   │   ├── dashboard.css
+│   │   ├── attendance.css
+│   │   ├── components.css
+│   │   └── responsive.css
+│   │
+│   ├── js/
+│   │   ├── main.js
+│   │   ├── auth.js
+│   │   ├── api.js
+│   │   ├── utils.js
+│   │   ├── charts.js
+│   │   └── notifications.js
+│   │
+│   ├── images/
+│   │   ├── logo.png
+│   │   ├── logo_cam.jpg
+│   │   ├── banner-student.svg
+│   │   ├── banner-faculty.svg
+│   │   ├── banner-admin.svg
+│   │   └── avatars/
+│   │       ├── default-student.png
+│   │       ├── default-faculty.png
+│   │       └── default-admin.png
+│   │
+│   └── data/
+│       ├── students.json
+│       ├── faculty.json
+│       ├── courses.json
+│       ├── attendance.json
+│       ├── notices.json
+│       ├── leaves.json
+│       ├── grievances.json
+│       ├── feedback.json
+│       ├── results.json
+│       ├── timetable.json
+│       └── settings.json
+│
+├── student/
+│   ├── dashboard.html
+│   ├── profile.html
+│   ├── attendance/
+│   │   ├── view-attendance.html
+│   │   ├── attendance-calendar.html
+│   │   └── attendance-report.html
+│   ├── academics/
+│   │   ├── academic-timeline.html
+│   │   ├── course-outline.html
+│   │   ├── exam-timetable.html
+│   │   └── results.html
+│   ├── requests/
+│   │   ├── leave-apply.html
+│   │   ├── leave-status.html
+│   │   ├── grievance.html
+│   │   └── grievance-status.html
+│   ├── exams/
+│   │   ├── exam-form.html
+│   │   ├── exam-form-status.html
+│   │   └── hall-ticket.html
+│   ├── resources/
+│   │   ├── repository.html
+│   │   ├── notices.html
+│   │   └── feedback.html
+│   └── js/
+│       ├── student-dashboard.js
+│       ├── student-attendance.js
+│       ├── student-profile.js
+│       └── student-requests.js
+│
+├── faculty/
+│   ├── dashboard.html
+│   ├── profile.html
+│   ├── attendance/
+│   │   ├── mark-attendance.html
+│   │   ├── view-attendance.html
+│   │   ├── attendance-report.html
+│   │   ├── qr-attendance.html
+│   │   └── bulk-attendance.html
+│   ├── classes/
+│   │   ├── my-classes.html
+│   │   ├── class-detail.html
+│   │   ├── student-list.html
+│   │   └── timetable.html
+│   ├── exams/
+│   │   ├── exam-verification.html
+│   │   ├── marks-entry.html
+│   │   └── results-declare.html
+│   ├── requests/
+│   │   ├── leave-requests.html
+│   │   ├── leave-approval.html
+│   │   └── grievance-review.html
+│   ├── resources/
+│   │   ├── upload-material.html
+│   │   ├── repository.html
+│   │   ├── notices.html
+│   │   └── feedback-view.html
+│   └── js/
+│       ├── faculty-dashboard.js
+│       ├── faculty-attendance.js
+│       ├── faculty-profile.js
+│       └── faculty-classes.js
+│
+├── admin/
+│   ├── dashboard.html
+│   ├── profile.html
+│   ├── management/
+│   │   ├── student-management/
+│   │   │   ├── students-list.html
+│   │   │   ├── add-student.html
+│   │   │   ├── edit-student.html
+│   │   │   ├── student-detail.html
+│   │   │   ├── student-promotion.html
+│   │   │   └── student-import.html
+│   │   ├── faculty-management/
+│   │   │   ├── faculty-list.html
+│   │   │   ├── add-faculty.html
+│   │   │   ├── edit-faculty.html
+│   │   │   └── faculty-detail.html
+│   │   ├── course-management/
+│   │   │   ├── courses-list.html
+│   │   │   ├── add-course.html
+│   │   │   ├── edit-course.html
+│   │   │   ├── subject-management.html
+│   │   │   └── semester-management.html
+│   │   └── department-management/
+│   │       ├── departments.html
+│   │       ├── add-department.html
+│   │       └── edit-department.html
+│   ├── attendance/
+│   │   ├── attendance-overview.html
+│   │   ├── attendance-report.html
+│   │   ├── student-attendance.html
+│   │   └── faculty-attendance.html
+│   ├── examinations/
+│   │   ├── exam-schedule.html
+│   │   ├── exam-forms-verification.html
+│   │   ├── hall-ticket-generate.html
+│   │   ├── seat-allocation.html
+│   │   └── results-management.html
+│   ├── requests/
+│   │   ├── leave-management.html
+│   │   ├── leave-approval.html
+│   │   ├── leave-report.html
+│   │   ├── grievance-management.html
+│   │   └── feedback-management.html
+│   ├── communications/
+│   │   ├── notices.html
+│   │   ├── add-notice.html
+│   │   ├── announcements.html
+│   │   └── email-broadcast.html
+│   ├── reports/
+│   │   ├── attendance-report.html
+│   │   ├── academic-report.html
+│   │   ├── financial-report.html
+│   │   ├── analytics-dashboard.html
+│   │   └── export-data.html
+│   ├── system/
+│   │   ├── user-roles.html
+│   │   ├── permissions.html
+│   │   ├── system-settings.html
+│   │   ├── academic-settings.html
+│   │   ├── backup-restore.html
+│   │   └── logs.html
+│   └── js/
+│       ├── admin-dashboard.js
+│       ├── admin-management.js
+│       ├── admin-attendance.js
+│       ├── admin-reports.js
+│       └── admin-settings.js
+│
+├── api/
+│   ├── auth.php
+│   ├── students.php
+│   ├── faculty.php
+│   ├── attendance.php
+│   ├── courses.php
+│   ├── leaves.php
+│   ├── grievances.php
+│   ├── feedback.php
+│   ├── exams.php
+│   ├── results.php
+│   ├── notices.php
+│   ├── reports.php
+│   └── settings.php
+│
+├── database/
+│   ├── connection.php
+│   ├── schema.sql
+│   ├── seed-data.sql
+│   ├── queries/
+│   │   ├── students.sql
+│   │   ├── attendance.sql
+│   │   ├── reports.sql
+│   │   └── analytics.sql
+│   └── migrations/
+│       ├── v1.0.0.sql
+│       ├── v1.1.0.sql
+│       └── v2.0.0.sql
+│
+├── includes/
+│   ├── config.php
+│   ├── constants.php
+│   ├── functions.php
+│   ├── session.php
+│   ├── validation.php
+│   └── email.php
+│
+├── uploads/
+│   ├── profile-pictures/
+│   ├── documents/
+│   ├── assignments/
+│   ├── notices/
+│   ├── exam-materials/
+│   └── temp/
+│
+├── vendor/
+│   └── (third-party libraries)
+│
+├── node_modules/
+│   └── (npm packages)
