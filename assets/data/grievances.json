@@ -1,0 +1,86 @@
+{
+  "grievances": [
+    {
+      "id": 1,
+      "student_id": 1,
+      "student_name": "Rishabh Sharma",
+      "roll_number": "IT181",
+      "category": "academic",
+      "title": "Assignment Grading Issue",
+      "description": "Requesting re-evaluation of Assignment 3 in Data Structures course. I believe there might be a calculation error in the grading. I have attached my assignment for review.",
+      "status": "pending",
+      "assigned_to": null,
+      "resolution": null,
+      "created_at": "2024-03-10",
+      "updated_at": "2024-03-10"
+    },
+    {
+      "id": 2,
+      "student_id": 2,
+      "student_name": "Jenish Patel",
+      "roll_number": "IT095",
+      "category": "technical",
+      "title": "Unable to Access LMS Portal",
+      "description": "Student portal is not working since yesterday. Unable to download study materials and submit assignments. Error message: 'Access Denied'.",
+      "status": "in_progress",
+      "assigned_to": "IT Support Team",
+      "resolution": null,
+      "created_at": "2024-03-12",
+      "updated_at": "2024-03-13"
+    },
+    {
+      "id": 3,
+      "student_id": 3,
+      "student_name": "Vasu Mehta",
+      "roll_number": "IT124",
+      "category": "administrative",
+      "title": "Scholarship Application Delay",
+      "description": "Applied for merit scholarship on Feb 15, but status is still showing as pending verification. Requesting update on application status.",
+      "status": "resolved",
+      "assigned_to": "Scholarship Committee",
+      "resolution": "Scholarship approved. Amount will be credited by next week.",
+      "created_at": "2024-03-14",
+      "updated_at": "2024-03-16"
+    },
+    {
+      "id": 4,
+      "student_id": 4,
+      "student_name": "Hetvi Shah",
+      "roll_number": "IT131",
+      "category": "academic",
+      "title": "Class Schedule Conflict",
+      "description": "Data Structures and Web Development are scheduled at the same time slot on Wednesdays. Requesting schedule adjustment.",
+      "status": "resolved",
+      "assigned_to": "Academic Coordinator",
+      "resolution": "Schedule adjusted. New timetable uploaded.",
+      "created_at": "2024-03-05",
+      "updated_at": "2024-03-07"
+    },
+    {
+      "id": 5,
+      "student_id": 5,
+      "student_name": "Aarav Desai",
+      "roll_number": "CSIT001",
+      "category": "technical",
+      "title": "Wi-Fi Connectivity Issues",
+      "description": "Unable to connect to college Wi-Fi in Lab 3. Other students are facing the same issue.",
+      "status": "in_progress",
+      "assigned_to": "IT Support Team",
+      "resolution": null,
+      "created_at": "2024-03-15",
+      "updated_at": "2024-03-16"
+    }
+  ],
+  "statistics": {
+    "total_grievances": 35,
+    "pending": 12,
+    "in_progress": 8,
+    "resolved": 15,
+    "by_category": {
+      "academic": 15,
+      "administrative": 8,
+      "technical": 10,
+      "other": 2
+    }
+  }
+}

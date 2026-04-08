@@ -1,0 +1,88 @@
+{
+  "feedback": [
+    {
+      "id": 1,
+      "student_id": 1,
+      "student_name": "Rishabh Sharma",
+      "roll_number": "IT181",
+      "category": "faculty",
+      "target_id": 1,
+      "target_name": "Dr. Aakash Gupta",
+      "rating": 5,
+      "comments": "Excellent teaching style. Explains complex concepts with great clarity. Always available for doubts and provides practical examples.",
+      "created_at": "2024-03-15"
+    },
+    {
+      "id": 2,
+      "student_id": 2,
+      "student_name": "Jenish Patel",
+      "roll_number": "IT095",
+      "category": "course",
+      "target_id": 1,
+      "target_name": "Data Structures",
+      "rating": 4,
+      "comments": "Good course content. Well structured curriculum. Could include more programming exercises and real-world examples.",
+      "created_at": "2024-03-14"
+    },
+    {
+      "id": 3,
+      "student_id": 3,
+      "student_name": "Vasu Mehta",
+      "roll_number": "IT124",
+      "category": "faculty",
+      "target_id": 2,
+      "target_name": "Prof. Neha Shah",
+      "rating": 5,
+      "comments": "Very helpful faculty. Explains database concepts very well. Great mentor and always encourages students.",
+      "created_at": "2024-03-13"
+    },
+    {
+      "id": 4,
+      "student_id": 4,
+      "student_name": "Hetvi Shah",
+      "roll_number": "IT131",
+      "category": "general",
+      "target_id": null,
+      "target_name": "Library",
+      "rating": 4,
+      "comments": "Good library facilities. Would appreciate more copies of reference books for Data Structures and Algorithms. Also, need more digital resources.",
+      "created_at": "2024-03-12"
+    },
+    {
+      "id": 5,
+      "student_id": 5,
+      "student_name": "Aarav Desai",
+      "roll_number": "CSIT001",
+      "category": "faculty",
+      "target_id": 3,
+      "target_name": "Prof. Niraj Mehta",
+      "rating": 3,
+      "comments": "Good knowledge but pace is too fast sometimes. Would prefer more hands-on coding sessions.",
+      "created_at": "2024-03-11"
+    },
+    {
+      "id": 6,
+      "student_id": 1,
+      "student_name": "Rishabh Sharma",
+      "roll_number": "IT181",
+      "category": "course",
+      "target_id": 2,
+      "target_name": "Database Management",
+      "rating": 5,
+      "comments": "Excellent course! The lab sessions are very helpful for understanding SQL queries.",
+      "created_at": "2024-03-10"
+    }
+  ],
+  "statistics": {
+    "total_feedback": 245,
+    "average_rating": 4.2,
+    "positive_feedback": 180,
+    "negative_feedback": 25,
+    "neutral_feedback": 40,
+    "by_category": {
+      "faculty": 120,
+      "course": 85,
+      "general": 40
+    }
+  }
+}   

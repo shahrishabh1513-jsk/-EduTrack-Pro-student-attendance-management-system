@@ -1,71 +1,11 @@
 <?php
-// student/dashboard.php
 require_once '../includes/config.php';
-redirectIfNotStudent();
 
-$user_id = $_SESSION['user_id'];
-
-// Get student details
-$query = "SELECT s.*, c.course_name, d.dept_name 
-          FROM students s 
-          LEFT JOIN courses c ON s.course_id = c.id 
-          LEFT JOIN departments d ON c.department_id = d.id 
-          WHERE s.user_id = :user_id";
-$stmt = $db->prepare($query);
-$stmt->bindParam(':user_id', $user_id);
-$stmt->execute();
-$student = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$student) {
-    die("Student record not found");
+if (!isLoggedIn() || !hasRole('student')) {
+    redirect('login.php');
 }
 
-$student_id = $student['id'];
-
-// Get attendance summary
-$attendance_query = "SELECT 
-                        COUNT(CASE WHEN status = 'present' THEN 1 END) as present,
-                        COUNT(CASE WHEN status = 'absent' THEN 1 END) as absent,
-                        COUNT(CASE WHEN status = 'late' THEN 1 END) as late,
-                        COUNT(*) as total
-                     FROM attendance 
-                     WHERE student_id = :student_id";
-$att_stmt = $db->prepare($attendance_query);
-$att_stmt->bindParam(':student_id', $student_id);
-$att_stmt->execute();
-$attendance = $att_stmt->fetch(PDO::FETCH_ASSOC);
-
-$attendance_percentage = $attendance['total'] > 0 ? round(($attendance['present'] / $attendance['total']) * 100, 2) : 0;
-
-// Get recent notices
-$notice_query = "SELECT * FROM notices 
-                 WHERE is_active = 1 
-                 AND (expiry_date IS NULL OR expiry_date >= CURDATE())
-                 ORDER BY created_at DESC LIMIT 5";
-$notices = $db->query($notice_query)->fetchAll(PDO::FETCH_ASSOC);
-
-// Get upcoming exams
-$exam_query = "SELECT es.*, s.subject_name 
-               FROM exam_schedule es
-               JOIN subjects s ON es.subject_id = s.id
-               WHERE es.course_id = :course_id 
-               AND es.semester = :semester
-               AND es.exam_date >= CURDATE()
-               ORDER BY es.exam_date ASC LIMIT 5";
-$exam_stmt = $db->prepare($exam_query);
-$exam_stmt->bindParam(':course_id', $student['course_id']);
-$exam_stmt->bindParam(':semester', $student['semester']);
-$exam_stmt->execute();
-$exams = $exam_stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Get subjects for current semester
-$subjects_query = "SELECT * FROM subjects 
-                   WHERE course_id = :course_id AND semester = :semester";
-$subj_stmt = $db->prepare($subjects_query);
-$subj_stmt->bindParam(':course_id', $student['course_id']);
-$subj_stmt->bindParam(':semester', $student['semester']);
-$subj_stmt->execute();
-$subjects = $subj_stmt->fetchAll(PDO::FETCH_ASSOC);
+$user = getUserData($conn, $_SESSION['user_id']);
 ?>
 
 <!DOCTYPE html>
@@ -74,343 +14,164 @@ $subjects = $subj_stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard - EduTrack Pro</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .sidebar {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .sidebar .nav-link {
-            color: white;
-            padding: 12px 20px;
-            margin: 5px 0;
-            border-radius: 10px;
-            transition: all 0.3s;
-        }
-        .sidebar .nav-link:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateX(5px);
-        }
-        .sidebar .nav-link.active {
-            background: rgba(255,255,255,0.3);
-        }
-        .sidebar .nav-link i {
-            margin-right: 10px;
-        }
-        .stat-card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        .stat-icon {
-            font-size: 2.5rem;
-            opacity: 0.5;
-        }
-        .welcome-banner {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #f8f9fa; }
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background: white; position: fixed; height: 100vh; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.05); transition: all 0.3s; z-index: 100; }
+        .sidebar.collapsed { width: 80px; }
+        .sidebar.collapsed .sidebar-nav a span, .sidebar.collapsed .sidebar-header h3 { display: none; }
+        .sidebar.collapsed .sidebar-nav a { justify-content: center; padding: 15px; }
+        .sidebar-header { padding: 25px 20px; border-bottom: 1px solid #e9ecef; display: flex; align-items: center; justify-content: space-between; }
+        .sidebar-header .logo { display: flex; align-items: center; gap: 10px; }
+        .sidebar-header i { font-size: 2rem; color: #4361ee; }
+        .sidebar-header h3 { font-size: 1.2rem; color: #1e293b; }
+        .toggle-sidebar { background: none; border: none; cursor: pointer; font-size: 1.2rem; color: #6c757d; }
+        .sidebar-nav { padding: 20px 0; }
+        .sidebar-nav a { display: flex; align-items: center; gap: 15px; padding: 12px 20px; color: #6c757d; text-decoration: none; transition: all 0.3s; }
+        .sidebar-nav a:hover, .sidebar-nav a.active { background: rgba(67,97,238,0.05); color: #4361ee; border-left: 4px solid #4361ee; }
+        .main-content { flex: 1; margin-left: 280px; padding: 20px 30px; transition: all 0.3s; }
+        .main-content.expanded { margin-left: 80px; }
+        .top-header { background: white; padding: 15px 25px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .user-profile img { width: 40px; height: 40px; border-radius: 50%; }
+        .welcome-banner { background: linear-gradient(135deg, #4361ee, #3f37c9); padding: 30px; border-radius: 20px; color: white; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 25px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s; cursor: pointer; }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.07); }
+        .stat-number { font-size: 2rem; font-weight: 700; color: #1e293b; }
+        .stat-icon { width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+        .stat-icon.blue { background: rgba(67,97,238,0.1); color: #4361ee; }
+        .stat-icon.green { background: rgba(76,201,240,0.1); color: #4cc9f0; }
+        .stat-icon.orange { background: rgba(247,37,133,0.1); color: #f72585; }
+        .content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
+        .content-card { background: white; border-radius: 20px; padding: 25px; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e9ecef; }
+        .card-header a { color: #4361ee; text-decoration: none; }
+        .notice-item, .timetable-item { display: flex; align-items: center; gap: 15px; padding: 12px 0; border-bottom: 1px solid #e9ecef; }
+        .notice-icon { width: 40px; height: 40px; background: rgba(67,97,238,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #4361ee; }
+        .progress-item { margin-bottom: 15px; }
+        .progress-info { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
+        .progress-bar { height: 8px; background: #e9ecef; border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #4361ee, #4cc9f0); border-radius: 10px; transition: width 0.3s; }
+        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .sidebar.active { transform: translateX(0); } .main-content { margin-left: 0; } }
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+        @media (max-width: 768px) { .mobile-menu-btn { display: block; } }
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <nav class="col-md-2 d-md-block sidebar p-0">
-                <div class="position-sticky">
-                    <div class="text-center py-4">
-                        <i class="fas fa-graduation-cap" style="font-size: 40px; color: white;"></i>
-                        <h5 class="text-white mt-2">EduTrack Pro</h5>
-                        <small class="text-white-50">Student Portal</small>
-                    </div>
-                    <ul class="nav flex-column px-3">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="dashboard.php">
-                                <i class="fas fa-tachometer-alt"></i> Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-calendar-check"></i> Attendance
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-trophy"></i> Results
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-clock"></i> Exam Schedule
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-envelope"></i> Leave Application
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-file-alt"></i> Exam Form
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-bell"></i> Notices
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-folder"></i> Study Materials
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../logout.php">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+    <div class="dashboard-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo"><i class="fas fa-graduation-cap"></i><h3>EduTrack Pro</h3></div>
+                <button class="toggle-sidebar" id="toggleSidebar"><i class="fas fa-chevron-left"></i></button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.php" class="active"><i class="fas fa-home"></i><span> Dashboard</span></a>
+                <a href="profile.php"><i class="fas fa-user"></i><span> Profile</span></a>
+                <a href="attendance/view-attendance.php"><i class="fas fa-calendar-check"></i><span> Attendance</span></a>
+                <a href="academics/academic-timeline.php"><i class="fas fa-timeline"></i><span> Academic Timeline</span></a>
+                <a href="academics/course-outline.php"><i class="fas fa-book"></i><span> Course Outline</span></a>
+                <a href="academics/exam-timetable.php"><i class="fas fa-clock"></i><span> Exam Timetable</span></a>
+                <a href="academics/results.php"><i class="fas fa-chart-line"></i><span> Results</span></a>
+                <a href="requests/leave-apply.php"><i class="fas fa-calendar-plus"></i><span> Apply Leave</span></a>
+                <a href="requests/leave-status.php"><i class="fas fa-calendar-check"></i><span> Leave Status</span></a>
+                <a href="requests/grievance.php"><i class="fas fa-exclamation-circle"></i><span> Grievance</span></a>
+                <a href="exams/exam-form.php"><i class="fas fa-file-alt"></i><span> Exam Form</span></a>
+                <a href="resources/notices.php"><i class="fas fa-bell"></i><span> Notices</span></a>
+                <a href="resources/feedback.php"><i class="fas fa-star"></i><span> Feedback</span></a>
+                <a href="../logout.php"><i class="fas fa-sign-out-alt"></i><span> Logout</span></a>
             </nav>
+        </aside>
 
-            <!-- Main content -->
-            <main class="col-md-10 ms-sm-auto px-md-4">
-                <!-- Welcome Banner -->
-                <div class="welcome-banner mt-3">
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <h2>Welcome back, <?php echo $_SESSION['full_name']; ?>!</h2>
-                            <p class="mb-0">Student ID: <?php echo $student['student_id']; ?> | Course: <?php echo $student['course_name']; ?> | Semester: <?php echo $student['semester']; ?></p>
-                        </div>
-                        <div class="col-md-4 text-end">
-                            <i class="fas fa-user-graduate" style="font-size: 60px;"></i>
-                        </div>
-                    </div>
+        <main class="main-content" id="mainContent">
+            <header class="top-header">
+                <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+                <div><h2>Dashboard</h2></div>
+                <div class="user-profile">
+                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($user['full_name']); ?>&background=4361ee&color=fff" alt="Profile">
+                    <div><h4><?php echo htmlspecialchars($user['full_name']); ?></h4><p><?php echo htmlspecialchars($user['id_number']); ?></p></div>
                 </div>
+            </header>
 
-                <!-- Stats Cards -->
-                <div class="row mb-4">
-                    <div class="col-md-3 mb-3">
-                        <div class="card stat-card bg-primary text-white">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h6 class="card-title">Overall Attendance</h6>
-                                        <h2><?php echo $attendance_percentage; ?>%</h2>
-                                    </div>
-                                    <i class="fas fa-calendar-check stat-icon"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <div class="card stat-card bg-success text-white">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h6 class="card-title">Current CGPA</h6>
-                                        <h2>8.5</h2>
-                                    </div>
-                                    <i class="fas fa-trophy stat-icon"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <div class="card stat-card bg-info text-white">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h6 class="card-title">Semester</h6>
-                                        <h2><?php echo $student['semester']; ?></h2>
-                                    </div>
-                                    <i class="fas fa-book stat-icon"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <div class="card stat-card bg-warning text-white">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h6 class="card-title">Upcoming Exams</h6>
-                                        <h2><?php echo count($exams); ?></h2>
-                                    </div>
-                                    <i class="fas fa-clock stat-icon"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="welcome-banner">
+                <div><h1>Welcome back, <?php echo explode(' ', $user['full_name'])[0]; ?>! 👋</h1><p>Here's your academic overview for today</p></div>
+                <div><i class="fas fa-user-graduate" style="font-size: 5rem; opacity: 0.3;"></i></div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card" onclick="window.location.href='attendance/view-attendance.php'">
+                    <div><h3>Attendance</h3><div class="stat-number" id="attendancePercent">--%</div><small>This Semester</small></div>
+                    <div class="stat-icon blue"><i class="fas fa-calendar-check"></i></div>
                 </div>
-
-                <div class="row">
-                    <!-- Attendance Chart -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>Attendance Overview</h5>
-                            </div>
-                            <div class="card-body">
-                                <canvas id="attendanceChart" height="200"></canvas>
-                                <div class="mt-3">
-                                    <div class="progress" style="height: 25px;">
-                                        <div class="progress-bar bg-success" style="width: <?php echo $attendance_percentage; ?>%">
-                                            Present: <?php echo $attendance['present'] ?? 0; ?>
-                                        </div>
-                                        <div class="progress-bar bg-danger" style="width: <?php echo 100 - $attendance_percentage; ?>%">
-                                            Absent: <?php echo $attendance['absent'] ?? 0; ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Subject-wise Attendance -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>Subject-wise Attendance</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>Subject</th>
-                                                <th>Attendance</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach($subjects as $subject): 
-                                                $subject_attendance = getAttendancePercentage($student_id, $subject['id']);
-                                            ?>
-                                            <tr>
-                                                <td><?php echo $subject['subject_name']; ?></td>
-                                                <td><?php echo $subject_attendance; ?>%</td>
-                                                <td>
-                                                    <?php if($subject_attendance >= 75): ?>
-                                                        <span class="badge bg-success">Good</span>
-                                                    <?php elseif($subject_attendance >= 60): ?>
-                                                        <span class="badge bg-warning">Average</span>
-                                                    <?php else: ?>
-                                                        <span class="badge bg-danger">Low</span>
-                                                    <?php endif; ?>
-                                                </td>
-                                            </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="stat-card" onclick="window.location.href='academics/results.php'">
+                    <div><h3>CGPA</h3><div class="stat-number"><?php echo $user['cgpa'] ?? '8.5'; ?></div><small>Out of 10</small></div>
+                    <div class="stat-icon green"><i class="fas fa-star"></i></div>
                 </div>
-
-                <div class="row">
-                    <!-- Recent Notices -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5><i class="fas fa-bell"></i> Recent Notices</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="list-group">
-                                    <?php foreach($notices as $notice): ?>
-                                    <div class="list-group-item list-group-item-action">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h6 class="mb-1"><?php echo $notice['title']; ?></h6>
-                                            <small><?php echo date('d M Y', strtotime($notice['created_at'])); ?></small>
-                                        </div>
-                                        <p class="mb-1"><?php echo substr($notice['content'], 0, 100); ?>...</p>
-                                        <small class="text-muted">
-                                            <i class="fas fa-tag"></i> <?php echo ucfirst($notice['notice_type']); ?>
-                                        </small>
-                                    </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Upcoming Exams -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5><i class="fas fa-calendar-alt"></i> Upcoming Examinations</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Subject</th>
-                                                <th>Date</th>
-                                                <th>Time</th>
-                                                <th>Venue</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach($exams as $exam): ?>
-                                            <tr>
-                                                <td><?php echo $exam['subject_name']; ?></td>
-                                                <td><?php echo date('d M Y', strtotime($exam['exam_date'])); ?></td>
-                                                <td><?php echo date('h:i A', strtotime($exam['start_time'])); ?></td>
-                                                <td><?php echo $exam['venue']; ?></td>
-                                            </tr>
-                                            <?php endforeach; ?>
-                                            <?php if(count($exams) == 0): ?>
-                                            <tr>
-                                                <td colspan="4" class="text-center">No upcoming exams</td>
-                                            </tr>
-                                            <?php endif; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="stat-card" onclick="window.location.href='academics/exam-timetable.php'">
+                    <div><h3>Upcoming Exams</h3><div class="stat-number">3</div><small>Next in 5 days</small></div>
+                    <div class="stat-icon orange"><i class="fas fa-file-alt"></i></div>
                 </div>
-            </main>
-        </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="card-header"><h3><i class="fas fa-bell"></i> Recent Notices</h3><a href="resources/notices.php">View All</a></div>
+                    <div id="recentNotices">Loading...</div>
+                </div>
+                <div class="content-card">
+                    <div class="card-header"><h3><i class="fas fa-clock"></i> Today's Schedule</h3><a href="academics/exam-timetable.php">Full Schedule</a></div>
+                    <div id="todayTimetable"></div>
+                </div>
+                <div class="content-card">
+                    <div class="card-header"><h3><i class="fas fa-chart-pie"></i> Attendance Overview</h3><a href="attendance/view-attendance.php">Details</a></div>
+                    <div id="attendanceOverview">Loading...</div>
+                </div>
+            </div>
+        </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Attendance Chart
-        const ctx = document.getElementById('attendanceChart').getContext('2d');
-        const attendanceChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Present', 'Absent', 'Late'],
-                datasets: [{
-                    data: [<?php echo $attendance['present'] ?? 0; ?>, <?php echo $attendance['absent'] ?? 0; ?>, <?php echo $attendance['late'] ?? 0; ?>],
-                    backgroundColor: ['#28a745', '#dc3545', '#ffc107'],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
+        async function loadDashboard() {
+            try {
+                const response = await fetch('../api/attendance.php?action=get_statistics&student_id=<?php echo $user['id']; ?>');
+                const data = await response.json();
+                if(data.success && data.data.length > 0) {
+                    const totalPercent = data.data.reduce((sum, item) => sum + item.percentage, 0) / data.data.length;
+                    document.getElementById('attendancePercent').textContent = Math.round(totalPercent) + '%';
+                    const attendanceHTML = data.data.map(item => `<div class="progress-item"><div class="progress-info"><span>${item.course_name}</span><span>${item.percentage}%</span></div><div class="progress-bar"><div class="progress-fill" style="width: ${item.percentage}%"></div></div></div>`).join('');
+                    document.getElementById('attendanceOverview').innerHTML = attendanceHTML;
+                } else {
+                    document.getElementById('attendanceOverview').innerHTML = '<p>No attendance data available</p>';
                 }
-            }
-        });
+                
+                const noticesResponse = await fetch('../api/notices.php?action=get_recent');
+                const noticesData = await noticesResponse.json();
+                if(noticesData.success && noticesData.data.length > 0) {
+                    const noticesHTML = noticesData.data.slice(0, 3).map(notice => `<div class="notice-item"><div class="notice-icon"><i class="fas fa-bullhorn"></i></div><div><h4>${notice.title}</h4><p style="font-size:0.8rem;color:#6c757d;">${new Date(notice.created_at).toLocaleDateString()}</p></div></div>`).join('');
+                    document.getElementById('recentNotices').innerHTML = noticesHTML;
+                } else {
+                    document.getElementById('recentNotices').innerHTML = '<p>No notices available</p>';
+                }
+                
+                const timetable = [
+                    { time: '09:00 AM', subject: 'Data Structures', teacher: 'Dr. Aakash Gupta' },
+                    { time: '11:00 AM', subject: 'Database Management', teacher: 'Prof. Neha Shah' },
+                    { time: '02:00 PM', subject: 'Web Development', teacher: 'Prof. Niraj Mehta' }
+                ];
+                const timetableHTML = timetable.map(item => `<div class="timetable-item"><div class="notice-icon"><i class="fas fa-book"></i></div><div><h4>${item.subject}</h4><p style="font-size:0.8rem;color:#6c757d;">${item.time} • ${item.teacher}</p></div></div>`).join('');
+                document.getElementById('todayTimetable').innerHTML = timetableHTML;
+            } catch(error) { console.error('Error:', error); }
+        }
+        
+        const sidebar = document.getElementById('sidebar'), mainContent = document.getElementById('mainContent'), toggleBtn = document.getElementById('toggleSidebar'), mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        if(toggleBtn) toggleBtn.addEventListener('click', function() { sidebar.classList.toggle('collapsed'); mainContent.classList.toggle('expanded'); });
+        if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', function() { sidebar.classList.toggle('active'); });
+        function handleResponsive() { if(window.innerWidth <= 768) { sidebar.classList.add('collapsed'); mainContent.classList.add('expanded'); } else { sidebar.classList.remove('collapsed', 'active'); mainContent.classList.remove('expanded'); } }
+        window.addEventListener('resize', handleResponsive); handleResponsive();
+        loadDashboard();
     </script>
 </body>
 </html>

@@ -1,0 +1,107 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "course_code": "CS301",
+      "course_name": "Data Structures",
+      "credits": 4,
+      "semester": 3,
+      "department": "Computer Science",
+      "description": "Study of fundamental data structures and algorithms including arrays, linked lists, stacks, queues, trees, and graphs.",
+      "status": "active",
+      "faculty_id": 1,
+      "faculty_name": "Dr. Aakash Gupta",
+      "created_at": "2023-01-01 10:00:00"
+    },
+    {
+      "id": 2,
+      "course_code": "CS302",
+      "course_name": "Database Management Systems",
+      "credits": 4,
+      "semester": 3,
+      "department": "Computer Science",
+      "description": "Introduction to database concepts, relational model, SQL, normalization, transaction management, and database design.",
+      "status": "active",
+      "faculty_id": 2,
+      "faculty_name": "Prof. Neha Shah",
+      "created_at": "2023-01-01 10:00:00"
+    },
+    {
+      "id": 3,
+      "course_code": "CS303",
+      "course_name": "Web Development",
+      "credits": 3,
+      "semester": 3,
+      "department": "Computer Science",
+      "description": "Front-end and back-end web development using HTML5, CSS3, JavaScript, PHP, and modern frameworks.",
+      "status": "active",
+      "faculty_id": 3,
+      "faculty_name": "Prof. Niraj Mehta",
+      "created_at": "2023-01-01 10:00:00"
+    },
+    {
+      "id": 4,
+      "course_code": "CS304",
+      "course_name": "Operating Systems",
+      "credits": 4,
+      "semester": 3,
+      "department": "Computer Science",
+      "description": "Concepts of operating systems including processes, memory management, file systems, and concurrency.",
+      "status": "active",
+      "faculty_id": 1,
+      "faculty_name": "Dr. Aakash Gupta",
+      "created_at": "2023-01-01 10:00:00"
+    },
+    {
+      "id": 5,
+      "course_code": "CS305",
+      "course_name": "Computer Networks",
+      "credits": 4,
+      "semester": 3,
+      "department": "Computer Science",
+      "description": "Fundamentals of computer networks, OSI model, TCP/IP, routing, and network security.",
+      "status": "active",
+      "faculty_id": 2,
+      "faculty_name": "Prof. Neha Shah",
+      "created_at": "2023-01-01 10:00:00"
+    },
+    {
+      "id": 6,
+      "course_code": "CS201",
+      "course_name": "Object Oriented Programming",
+      "credits": 4,
+      "semester": 2,
+      "department": "Computer Science",
+      "description": "Object-oriented programming concepts using Java including classes, inheritance, polymorphism, and exception handling.",
+      "status": "active",
+      "faculty_id": 4,
+      "faculty_name": "Prof. Rajesh Kumar",
+      "created_at": "2023-01-01 10:00:00"
+    },
+    {
+      "id": 7,
+      "course_code": "CS202",
+      "course_name": "Discrete Mathematics",
+      "credits": 3,
+      "semester": 2,
+      "department": "Computer Science",
+      "description": "Mathematical foundations for computer science including logic, sets, relations, graphs, and combinatorics.",
+      "status": "active",
+      "faculty_id": 4,
+      "faculty_name": "Prof. Rajesh Kumar",
+      "created_at": "2023-01-01 10:00:00"
+    }
+  ],
+  "statistics": {
+    "total_courses": 45,
+    "active_courses": 42,
+    "total_credits": 180,
+    "by_department": {
+      "Computer Science": 12,
+      "Information Technology": 10,
+      "Electronics": 10,
+      "Mechanical": 8,
+      "Civil": 5
+    }
+  }
+}

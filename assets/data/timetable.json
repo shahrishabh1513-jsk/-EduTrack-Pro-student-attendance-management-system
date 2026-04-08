@@ -1,0 +1,204 @@
+{
+  "timetable": {
+    "semester": 3,
+    "academic_year": "2024-2025",
+    "schedule": {
+      "Monday": [
+        {
+          "time": "09:00 - 10:00",
+          "course_code": "CS301",
+          "course_name": "Data Structures",
+          "faculty": "Dr. Aakash Gupta",
+          "room": "Room 101",
+          "type": "Theory"
+        },
+        {
+          "time": "11:00 - 12:00",
+          "course_code": "CS302",
+          "course_name": "Database Management",
+          "faculty": "Prof. Neha Shah",
+          "room": "Room 203",
+          "type": "Theory"
+        },
+        {
+          "time": "14:00 - 15:00",
+          "course_code": "CS303",
+          "course_name": "Web Development",
+          "faculty": "Prof. Niraj Mehta",
+          "room": "Lab 3",
+          "type": "Practical"
+        }
+      ],
+      "Tuesday": [
+        {
+          "time": "10:00 - 11:00",
+          "course_code": "CS303",
+          "course_name": "Web Development",
+          "faculty": "Prof. Niraj Mehta",
+          "room": "Lab 3",
+          "type": "Practical"
+        },
+        {
+          "time": "11:00 - 12:00",
+          "course_code": "CS304",
+          "course_name": "Operating Systems",
+          "faculty": "Dr. Aakash Gupta",
+          "room": "Room 105",
+          "type": "Theory"
+        },
+        {
+          "time": "14:00 - 15:00",
+          "course_code": "CS301",
+          "course_name": "Data Structures Lab",
+          "faculty": "Dr. Aakash Gupta",
+          "room": "Lab 2",
+          "type": "Practical"
+        }
+      ],
+      "Wednesday": [
+        {
+          "time": "09:00 - 10:00",
+          "course_code": "CS301",
+          "course_name": "Data Structures",
+          "faculty": "Dr. Aakash Gupta",
+          "room": "Room 101",
+          "type": "Theory"
+        },
+        {
+          "time": "11:00 - 12:00",
+          "course_code": "CS305",
+          "course_name": "Computer Networks",
+          "faculty": "Prof. Neha Shah",
+          "room": "Room 108",
+          "type": "Theory"
+        },
+        {
+          "time": "14:00 - 15:00",
+          "course_code": "CS304",
+          "course_name": "Operating Systems Lab",
+          "faculty": "Dr. Aakash Gupta",
+          "room": "Lab 1",
+          "type": "Practical"
+        }
+      ],
+      "Thursday": [
+        {
+          "time": "10:00 - 11:00",
+          "course_code": "CS302",
+          "course_name": "Database Management Lab",
+          "faculty": "Prof. Neha Shah",
+          "room": "Lab 2",
+          "type": "Practical"
+        },
+        {
+          "time": "11:00 - 12:00",
+          "course_code": "CS303",
+          "course_name": "Web Development",
+          "faculty": "Prof. Niraj Mehta",
+          "room": "Lab 3",
+          "type": "Practical"
+        },
+        {
+          "time": "14:00 - 15:00",
+          "course_code": "CS305",
+          "course_name": "Computer Networks Lab",
+          "faculty": "Prof. Neha Shah",
+          "room": "Lab 1",
+          "type": "Practical"
+        }
+      ],
+      "Friday": [
+        {
+          "time": "09:00 - 10:00",
+          "course_code": "CS304",
+          "course_name": "Operating Systems",
+          "faculty": "Dr. Aakash Gupta",
+          "room": "Room 105",
+          "type": "Theory"
+        },
+        {
+          "time": "11:00 - 12:00",
+          "course_code": "CS305",
+          "course_name": "Computer Networks",
+          "faculty": "Prof. Neha Shah",
+          "room": "Room 108",
+          "type": "Theory"
+        },
+        {
+          "time": "15:00 - 16:00",
+          "course_code": "MEET",
+          "course_name": "Department Meeting",
+          "faculty": "All Faculty",
+          "room": "Conference Hall",
+          "type": "Meeting"
+        }
+      ],
+      "Saturday": [
+        {
+          "time": "09:00 - 12:00",
+          "course_code": "PRJ",
+          "course_name": "Project Work",
+          "faculty": "Project Guide",
+          "room": "Lab 3",
+          "type": "Project"
+        }
+      ],
+      "Sunday": []
+    }
+  },
+  "exam_timetable": {
+    "semester": 3,
+    "exams": [
+      {
+        "date": "2024-03-25",
+        "day": "Monday",
+        "time": "10:00 - 13:00",
+        "course_code": "CS301",
+        "course_name": "Data Structures",
+        "venue": "Room 101, 102",
+        "max_marks": 100,
+        "duration": "3 hours"
+      },
+      {
+        "date": "2024-03-26",
+        "day": "Tuesday",
+        "time": "10:00 - 13:00",
+        "course_code": "CS302",
+        "course_name": "Database Management",
+        "venue": "Room 203, 204",
+        "max_marks": 100,
+        "duration": "3 hours"
+      },
+      {
+        "date": "2024-03-27",
+        "day": "Wednesday",
+        "time": "10:00 - 13:00",
+        "course_code": "CS303",
+        "course_name": "Web Development",
+        "venue": "Lab 3, 4",
+        "max_marks": 100,
+        "duration": "3 hours"
+      },
+      {
+        "date": "2024-03-28",
+        "day": "Thursday",
+        "time": "10:00 - 13:00",
+        "course_code": "CS304",
+        "course_name": "Operating Systems",
+        "venue": "Room 105, 106",
+        "max_marks": 100,
+        "duration": "3 hours"
+      },
+      {
+        "date": "2024-03-29",
+        "day": "Friday",
+        "time": "10:00 - 13:00",
+        "course_code": "CS305",
+        "course_name": "Computer Networks",
+        "venue": "Room 108, 109",
+        "max_marks": 100,
+        "duration": "3 hours"
+      }
+    ]
+  }
+}

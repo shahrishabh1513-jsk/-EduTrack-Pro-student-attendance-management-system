@@ -1,0 +1,101 @@
+{
+  "system": {
+    "system_name": "EduTrack Pro",
+    "system_url": "http://localhost/edutrack-pro",
+    "system_email": "admin@edutrack.com",
+    "admin_email": "admin@edutrack.com",
+    "timezone": "Asia/Kolkata",
+    "date_format": "DD/MM/YYYY",
+    "time_format": "12h",
+    "theme_color": "blue",
+    "logo_url": "/assets/images/logo.png",
+    "favicon_url": "/assets/images/favicon.ico",
+    "maintenance_mode": false,
+    "registration_enabled": true,
+    "debug_mode": false
+  },
+  "academic": {
+    "current_academic_year": "2024-2025",
+    "current_semester": 3,
+    "semester_start_date": "2024-07-01",
+    "semester_end_date": "2024-12-15",
+    "exam_start_date": "2024-12-01",
+    "exam_end_date": "2024-12-20",
+    "result_date": "2024-12-25",
+    "min_attendance_required": 75,
+    "classes_per_week": 3,
+    "attendance_deadline_days": 7,
+    "exam_fee_per_subject": 500,
+    "practical_exam_fee": 1000,
+    "allow_exam_form_resubmission": true,
+    "auto_notify_low_attendance": true
+  },
+  "grading": {
+    "scale": [
+      { "grade": "A+", "min_percentage": 90, "max_percentage": 100, "points": 10, "description": "Outstanding" },
+      { "grade": "A", "min_percentage": 80, "max_percentage": 89, "points": 9, "description": "Excellent" },
+      { "grade": "B+", "min_percentage": 70, "max_percentage": 79, "points": 8, "description": "Very Good" },
+      { "grade": "B", "min_percentage": 60, "max_percentage": 69, "points": 7, "description": "Good" },
+      { "grade": "C+", "min_percentage": 55, "max_percentage": 59, "points": 6, "description": "Satisfactory" },
+      { "grade": "C", "min_percentage": 50, "max_percentage": 54, "points": 5, "description": "Average" },
+      { "grade": "D", "min_percentage": 40, "max_percentage": 49, "points": 4, "description": "Pass" },
+      { "grade": "F", "min_percentage": 0, "max_percentage": 39, "points": 0, "description": "Fail" }
+    ]
+  },
+  "email": {
+    "smtp_host": "smtp.gmail.com",
+    "smtp_port": 587,
+    "smtp_username": "noreply@edutrack.com",
+    "smtp_password": "********",
+    "encryption": "tls",
+    "from_email": "noreply@edutrack.com",
+    "from_name": "EduTrack Pro",
+    "enable_notifications": true
+  },
+  "security": {
+    "two_factor_auth": false,
+    "force_strong_password": true,
+    "session_timeout_minutes": 30,
+    "max_login_attempts": 5,
+    "lockout_duration_minutes": 30,
+    "password_expiry_days": 90,
+    "remember_me_days": 30
+  },
+  "appearance": {
+    "theme": "light",
+    "primary_color": "#4361ee",
+    "secondary_color": "#4cc9f0",
+    "sidebar_collapsed": false,
+    "show_dashboard_widgets": true,
+    "items_per_page": 25,
+    "default_dashboard": "dashboard"
+  },
+  "backup": {
+    "auto_backup_enabled": true,
+    "backup_frequency": "daily",
+    "backup_time": "02:00",
+    "retention_days": 30,
+    "backup_location": "/backups/"
+  },
+  "notifications": {
+    "email_notifications": true,
+    "sms_notifications": false,
+    "push_notifications": true,
+    "notify_on_attendance": true,
+    "notify_on_result": true,
+    "notify_on_leave_status": true,
+    "notify_on_grievance_update": true
+  },
+  "features": {
+    "attendance_module": true,
+    "exam_module": true,
+    "result_module": true,
+    "leave_module": true,
+    "grievance_module": true,
+    "feedback_module": true,
+    "notice_module": true,
+    "repository_module": true,
+    "analytics_module": true,
+    "api_access": true
+  }
+}

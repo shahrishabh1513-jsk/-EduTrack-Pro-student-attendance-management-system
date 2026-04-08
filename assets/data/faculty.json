@@ -1,0 +1,85 @@
+{
+  "faculty": [
+    {
+      "id": 1,
+      "user_id": 8,
+      "employee_id": "FAC001",
+      "full_name": "Dr. Aakash Gupta",
+      "email": "aakash@edutrack.com",
+      "phone": "9876543217",
+      "department": "Computer Science",
+      "designation": "Professor",
+      "qualification": "Ph.D. in Computer Science",
+      "specialization": "Data Structures, Algorithms",
+      "experience": 12,
+      "joining_date": "2015-08-01",
+      "address": "45 Faculty Quarters, Mumbai",
+      "status": "active",
+      "created_at": "2015-08-01 09:00:00"
+    },
+    {
+      "id": 2,
+      "user_id": 9,
+      "employee_id": "FAC002",
+      "full_name": "Prof. Neha Shah",
+      "email": "neha@edutrack.com",
+      "phone": "9876543218",
+      "department": "Computer Science",
+      "designation": "Associate Professor",
+      "qualification": "M.Tech in IT",
+      "specialization": "Database Management",
+      "experience": 8,
+      "joining_date": "2018-07-15",
+      "address": "67 Teacher Colony, Mumbai",
+      "status": "active",
+      "created_at": "2018-07-15 09:00:00"
+    },
+    {
+      "id": 3,
+      "user_id": 10,
+      "employee_id": "FAC003",
+      "full_name": "Prof. Niraj Mehta",
+      "email": "niraj@edutrack.com",
+      "phone": "9876543219",
+      "department": "Computer Science",
+      "designation": "Assistant Professor",
+      "qualification": "M.Sc. Computer Science",
+      "specialization": "Web Development",
+      "experience": 5,
+      "joining_date": "2020-06-10",
+      "address": "89 Staff Housing, Mumbai",
+      "status": "active",
+      "created_at": "2020-06-10 09:00:00"
+    },
+    {
+      "id": 4,
+      "user_id": 11,
+      "employee_id": "FAC004",
+      "full_name": "Prof. Rajesh Kumar",
+      "email": "rajesh@edutrack.com",
+      "phone": "9876543220",
+      "department": "Computer Science",
+      "designation": "Assistant Professor",
+      "qualification": "M.Tech in CS",
+      "specialization": "Operating Systems",
+      "experience": 6,
+      "joining_date": "2019-08-01",
+      "address": "34 Staff Quarters, Mumbai",
+      "status": "active",
+      "created_at": "2019-08-01 09:00:00"
+    }
+  ],
+  "statistics": {
+    "total_faculty": 128,
+    "professors": 25,
+    "associate_professors": 40,
+    "assistant_professors": 63,
+    "departments": {
+      "Computer Science": 35,
+      "Information Technology": 28,
+      "Electronics": 22,
+      "Mechanical": 25,
+      "Civil": 18
+    }
+  }
+}

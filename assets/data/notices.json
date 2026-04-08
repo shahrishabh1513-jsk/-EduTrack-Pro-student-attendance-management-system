@@ -1,0 +1,64 @@
+{
+  "notices": [
+    {
+      "id": 1,
+      "title": "End Semester Examination Schedule Released",
+      "content": "The schedule for end semester examinations has been released. Please check the exam timetable section for detailed schedule. All students must report 15 minutes before exam time. Electronic devices are strictly prohibited in examination halls.",
+      "category": "exam",
+      "target_role": "all",
+      "created_by": "System Administrator",
+      "created_at": "2024-03-20 10:00:00",
+      "expiry_date": "2024-04-15",
+      "is_active": true,
+      "attachment": null
+    },
+    {
+      "id": 2,
+      "title": "College Holiday on March 25th",
+      "content": "The college will remain closed on March 25th on account of Ram Navami. All classes and examinations scheduled for the day will be rescheduled. The revised schedule will be announced soon.",
+      "category": "holiday",
+      "target_role": "all",
+      "created_by": "System Administrator",
+      "created_at": "2024-03-18 14:30:00",
+      "expiry_date": "2024-03-26",
+      "is_active": true,
+      "attachment": null
+    },
+    {
+      "id": 3,
+      "title": "Annual Tech Fest 2024 - Registrations Open",
+      "content": "Registrations open for annual technical festival 'TechFusion 2024'. Events include coding competition, hackathon, technical quiz, and project exhibition. Last date for registration: March 30, 2024.",
+      "category": "event",
+      "target_role": "student",
+      "created_by": "System Administrator",
+      "created_at": "2024-03-15 09:00:00",
+      "expiry_date": "2024-04-10",
+      "is_active": true,
+      "attachment": "techfest_2024_schedule.pdf"
+    },
+    {
+      "id": 4,
+      "title": "Library Timing Extended During Exams",
+      "content": "Library timings have been extended during examination week. Library will remain open from 8 AM to 10 PM. Students are requested to maintain silence in the library.",
+      "category": "important",
+      "target_role": "all",
+      "created_by": "System Administrator",
+      "created_at": "2024-03-14 11:00:00",
+      "expiry_date": "2024-04-20",
+      "is_active": true,
+      "attachment": null
+    },
+    {
+      "id": 5,
+      "title": "Faculty Development Program",
+      "content": "A 5-day Faculty Development Program on 'Advanced Teaching Methodologies' will be conducted from April 10-14, 2024. All faculty members are requested to register by April 5.",
+      "category": "event",
+      "target_role": "faculty",
+      "created_by": "System Administrator",
+      "created_at": "2024-03-12 15:00:00",
+      "expiry_date": "2024-04-15",
+      "is_active": true,
+      "attachment": "fdp_schedule.pdf"
+    }
+  ]
+}

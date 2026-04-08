@@ -1,40 +1,11 @@
 <?php
-// student/requests/leave-apply.php
 require_once '../../includes/config.php';
-redirectIfNotStudent();
 
-$user_id = $_SESSION['user_id'];
-
-// Handle leave application
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $leave_type = sanitizeInput($_POST['leave_type']);
-    $from_date = sanitizeInput($_POST['from_date']);
-    $to_date = sanitizeInput($_POST['to_date']);
-    $reason = sanitizeInput($_POST['reason']);
-    
-    $query = "INSERT INTO leave_applications (user_id, role, leave_type, from_date, to_date, reason, status) 
-              VALUES (:user_id, 'student', :leave_type, :from_date, :to_date, :reason, 'pending')";
-    $stmt = $db->prepare($query);
-    $stmt->bindParam(':user_id', $user_id);
-    $stmt->bindParam(':leave_type', $leave_type);
-    $stmt->bindParam(':from_date', $from_date);
-    $stmt->bindParam(':to_date', $to_date);
-    $stmt->bindParam(':reason', $reason);
-    
-    if ($stmt->execute()) {
-        $success = "Leave application submitted successfully!";
-        logActivity($user_id, 'apply_leave', "Applied for leave from $from_date to $to_date");
-    } else {
-        $error = "Failed to submit leave application!";
-    }
+if (!isLoggedIn() || !hasRole('student')) {
+    redirect('login.php');
 }
 
-// Get leave history
-$history_query = "SELECT * FROM leave_applications WHERE user_id = :user_id ORDER BY created_at DESC";
-$hist_stmt = $db->prepare($history_query);
-$hist_stmt->bindParam(':user_id', $user_id);
-$hist_stmt->execute();
-$leave_history = $hist_stmt->fetchAll(PDO::FETCH_ASSOC);
+$user = getUserData($conn, $_SESSION['user_id']);
 ?>
 
 <!DOCTYPE html>
@@ -42,116 +13,120 @@ $leave_history = $hist_stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apply Leave - EduTrack Pro</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Apply for Leave - EduTrack Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #f8f9fa; }
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background: white; position: fixed; height: 100vh; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.05); transition: all 0.3s; z-index: 100; }
+        .sidebar.collapsed { width: 80px; }
+        .sidebar.collapsed .sidebar-nav a span, .sidebar.collapsed .sidebar-header h3 { display: none; }
+        .sidebar.collapsed .sidebar-nav a { justify-content: center; padding: 15px; }
+        .sidebar-header { padding: 25px 20px; border-bottom: 1px solid #e9ecef; display: flex; align-items: center; justify-content: space-between; }
+        .sidebar-header .logo { display: flex; align-items: center; gap: 10px; }
+        .sidebar-header i { font-size: 2rem; color: #4361ee; }
+        .sidebar-header h3 { font-size: 1.2rem; color: #1e293b; }
+        .toggle-sidebar { background: none; border: none; cursor: pointer; font-size: 1.2rem; color: #6c757d; }
+        .sidebar-nav { padding: 20px 0; }
+        .sidebar-nav a { display: flex; align-items: center; gap: 15px; padding: 12px 20px; color: #6c757d; text-decoration: none; transition: all 0.3s; }
+        .sidebar-nav a:hover, .sidebar-nav a.active { background: rgba(67,97,238,0.05); color: #4361ee; border-left: 4px solid #4361ee; }
+        .main-content { flex: 1; margin-left: 280px; padding: 20px 30px; transition: all 0.3s; }
+        .main-content.expanded { margin-left: 80px; }
+        .top-header { background: white; padding: 15px 25px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .user-profile img { width: 40px; height: 40px; border-radius: 50%; }
+        .form-container { background: white; border-radius: 20px; padding: 30px; max-width: 600px; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 2px solid #e9ecef; border-radius: 10px; font-family: 'Poppins', sans-serif; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #4361ee; }
+        .btn-submit { background: linear-gradient(135deg, #4361ee, #3f37c9); color: white; padding: 14px 30px; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; }
+        .leave-history { background: white; border-radius: 20px; padding: 30px; }
+        .leave-item { border: 1px solid #e9ecef; border-radius: 15px; padding: 20px; margin-bottom: 15px; }
+        .status-pending { color: #ffc107; font-weight: 600; }
+        .status-approved { color: #4cc9f0; font-weight: 600; }
+        .status-rejected { color: #f72585; font-weight: 600; }
+        .notification { position: fixed; top: 20px; right: 20px; padding: 15px 25px; border-radius: 10px; z-index: 9999; animation: slideIn 0.3s ease; color: white; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .sidebar.active { transform: translateX(0); } .main-content { margin-left: 0; } }
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+        @media (max-width: 768px) { .mobile-menu-btn { display: block; } }
+    </style>
 </head>
 <body>
-    <?php include '../includes/student-nav.php'; ?>
-    
-    <div class="container-fluid">
-        <div class="row">
-            <?php include '../includes/student-sidebar.php'; ?>
+    <div class="dashboard-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo"><i class="fas fa-graduation-cap"></i><h3>EduTrack Pro</h3></div>
+                <button class="toggle-sidebar" id="toggleSidebar"><i class="fas fa-chevron-left"></i></button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="../dashboard.php"><i class="fas fa-home"></i><span> Dashboard</span></a>
+                <a href="../profile.php"><i class="fas fa-user"></i><span> Profile</span></a>
+                <a href="../attendance/view-attendance.php"><i class="fas fa-calendar-check"></i><span> Attendance</span></a>
+                <a href="leave-apply.php" class="active"><i class="fas fa-calendar-plus"></i><span> Apply Leave</span></a>
+                <a href="leave-status.php"><i class="fas fa-calendar-check"></i><span> Leave Status</span></a>
+                <a href="grievance.php"><i class="fas fa-exclamation-circle"></i><span> Grievance</span></a>
+                <a href="../logout.php"><i class="fas fa-sign-out-alt"></i><span> Logout</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-content" id="mainContent">
+            <header class="top-header">
+                <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+                <div><h2>Apply for Leave</h2></div>
+                <div class="user-profile">
+                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($user['full_name']); ?>&background=4361ee&color=fff" alt="Profile">
+                    <div><h4><?php echo htmlspecialchars($user['full_name']); ?></h4><p><?php echo htmlspecialchars($user['id_number']); ?></p></div>
+                </div>
+            </header>
+
+            <div class="form-container"><h3 style="margin-bottom: 20px;">New Leave Application</h3>
+                <form id="leaveForm">
+                    <div class="form-group"><label>Leave Type</label><select id="leaveType" required><option value="medical">Medical Leave</option><option value="emergency">Emergency</option><option value="personal">Personal Leave</option><option value="vacation">Vacation</option></select></div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;"><div class="form-group"><label>From Date</label><input type="date" id="fromDate" required></div><div class="form-group"><label>To Date</label><input type="date" id="toDate" required></div></div>
+                    <div class="form-group"><label>Reason for Leave</label><textarea id="reason" rows="4" required placeholder="Please provide detailed reason..."></textarea></div>
+                    <div class="form-group"><label>Emergency Contact</label><input type="text" id="emergencyContact" placeholder="+91 98765 43210" required></div>
+                    <button type="submit" class="btn-submit">Submit Application</button>
+                </form>
+            </div>
             
-            <main class="col-md-10 ms-sm-auto px-md-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Apply for Leave</h1>
-                </div>
-                
-                <?php if(isset($success)): ?>
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <?php echo $success; ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                <?php endif; ?>
-                
-                <?php if(isset($error)): ?>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <?php echo $error; ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                <?php endif; ?>
-                
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5><i class="fas fa-pen-alt"></i> New Leave Application</h5>
-                            </div>
-                            <div class="card-body">
-                                <form method="POST" action="">
-                                    <div class="mb-3">
-                                        <label class="form-label">Leave Type</label>
-                                        <select name="leave_type" class="form-select" required>
-                                            <option value="casual">Casual Leave</option>
-                                            <option value="sick">Sick Leave</option>
-                                            <option value="emergency">Emergency Leave</option>
-                                            <option value="study">Study Leave</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label class="form-label">From Date</label>
-                                            <input type="date" name="from_date" class="form-control" required>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label class="form-label">To Date</label>
-                                            <input type="date" name="to_date" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Reason</label>
-                                        <textarea name="reason" class="form-control" rows="4" required placeholder="Please provide detailed reason for leave..."></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Submit Application</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5><i class="fas fa-history"></i> Leave History</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Type</th>
-                                                <th>Duration</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach($leave_history as $leave): ?>
-                                            <tr>
-                                                <td><?php echo ucfirst($leave['leave_type']); ?></td>
-                                                <td><?php echo date('d M', strtotime($leave['from_date'])); ?> - <?php echo date('d M Y', strtotime($leave['to_date'])); ?></td>
-                                                <td>
-                                                    <?php if($leave['status'] == 'pending'): ?>
-                                                        <span class="badge bg-warning">Pending</span>
-                                                    <?php elseif($leave['status'] == 'approved'): ?>
-                                                        <span class="badge bg-success">Approved</span>
-                                                    <?php else: ?>
-                                                        <span class="badge bg-danger">Rejected</span>
-                                                    <?php endif; ?>
-                                                </td>
-                                            </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
+            <div class="leave-history"><h3 style="margin-bottom: 20px;">My Leave History</h3><div id="leaveHistory">Loading...</div></div>
+        </main>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        async function loadLeaveHistory() {
+            try {
+                const response = await fetch('../../api/leave.php?action=get_my_leaves');
+                const data = await response.json();
+                if(data.success && data.data.length > 0) {
+                    const historyHTML = data.data.map(leave => `<div class="leave-item"><div style="display:flex;justify-content:space-between;margin-bottom:10px;"><strong>${leave.leave_type.toUpperCase()}</strong><span class="status-${leave.status}">${leave.status.toUpperCase()}</span></div><p>${new Date(leave.from_date).toLocaleDateString()} - ${new Date(leave.to_date).toLocaleDateString()}</p><p style="color:#6c757d;">${leave.reason}</p><p style="font-size:0.8rem;margin-top:10px;">Applied: ${new Date(leave.applied_at).toLocaleDateString()}</p>${leave.remarks ? `<p style="font-size:0.8rem;">Remarks: ${leave.remarks}</p>` : ''}</div>`).join('');
+                    document.getElementById('leaveHistory').innerHTML = historyHTML;
+                } else { document.getElementById('leaveHistory').innerHTML = '<p>No leave applications found.</p>'; }
+            } catch(error) { console.error('Error:', error); }
+        }
+        
+        document.getElementById('leaveForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const leaveData = { from_date: document.getElementById('fromDate').value, to_date: document.getElementById('toDate').value, reason: document.getElementById('reason').value, leave_type: document.getElementById('leaveType').value, emergency_contact: document.getElementById('emergencyContact').value };
+            try {
+                const response = await fetch('../../api/leave.php?action=apply', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(leaveData) });
+                const data = await response.json();
+                if(data.success) { showNotification('Leave application submitted successfully!', 'success'); this.reset(); loadLeaveHistory(); } else { showNotification(data.message, 'error'); }
+            } catch(error) { showNotification('Error submitting application', 'error'); }
+        });
+        
+        function showNotification(message, type) { const notification = document.createElement('div'); notification.className = 'notification'; notification.style.background = type === 'success' ? '#4cc9f0' : '#f72585'; notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`; document.body.appendChild(notification); setTimeout(() => notification.remove(), 3000); }
+        
+        const sidebar = document.getElementById('sidebar'), mainContent = document.getElementById('mainContent'), toggleBtn = document.getElementById('toggleSidebar'), mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        if(toggleBtn) toggleBtn.addEventListener('click', function() { sidebar.classList.toggle('collapsed'); mainContent.classList.toggle('expanded'); });
+        if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', function() { sidebar.classList.toggle('active'); });
+        function handleResponsive() { if(window.innerWidth <= 768) { sidebar.classList.add('collapsed'); mainContent.classList.add('expanded'); } else { sidebar.classList.remove('collapsed', 'active'); mainContent.classList.remove('expanded'); } }
+        window.addEventListener('resize', handleResponsive); handleResponsive();
+        loadLeaveHistory();
+    </script>
 </body>
 </html>

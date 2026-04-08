@@ -1,252 +1,123 @@
 <?php
-// login.php
 require_once 'includes/config.php';
 
-if (isLoggedIn()) {
-    if (isAdmin()) {
-        header("Location: admin/dashboard.php");
-    } elseif (isFaculty()) {
-        header("Location: faculty/dashboard.php");
-    } elseif (isStudent()) {
-        header("Location: student/dashboard.php");
-    }
-    exit();
-}
-
-$error = '';
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = sanitizeInput($_POST['username']);
-    $password = md5($_POST['password']);
-    
-    $query = "SELECT * FROM users WHERE username = :username AND password = :password AND status = 'active'";
-    $stmt = $db->prepare($query);
-    $stmt->bindParam(':username', $username);
-    $stmt->bindParam(':password', $password);
-    $stmt->execute();
-    
-    if ($stmt->rowCount() > 0) {
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['role'] = $user['role'];
-        $_SESSION['full_name'] = $user['full_name'];
-        
-        logActivity($user['id'], 'login', 'User logged in successfully');
-        
-        // Redirect based on role
-        switch($user['role']) {
-            case 'admin':
-                header("Location: admin/dashboard.php");
-                break;
-            case 'faculty':
-                header("Location: faculty/dashboard.php");
-                break;
-            case 'student':
-                header("Location: student/dashboard.php");
-                break;
-        }
-        exit();
-    } else {
-        $error = "Invalid username or password!";
-    }
+if(isLoggedIn()) {
+    if(hasRole('student')) redirect('student/dashboard.php');
+    elseif(hasRole('faculty')) redirect('faculty/dashboard.php');
+    elseif(hasRole('admin')) redirect('admin/dashboard.php');
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduTrack Pro - Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        .login-container {
-            width: 100%;
-            max-width: 450px;
-            padding: 20px;
-        }
-        
-        .login-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            padding: 40px;
-            animation: fadeInUp 0.6s ease;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .logo h2 {
-            color: #667eea;
-            font-weight: 700;
-            font-size: 28px;
-        }
-        
-        .logo p {
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        .btn-login {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        .demo-credentials {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
-        }
-        
-        .demo-credentials h6 {
-            color: #666;
-            margin-bottom: 10px;
-            font-size: 13px;
-        }
-        
-        .demo-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            font-size: 12px;
-        }
-        
-        .demo-item {
-            background: #f8f9fa;
-            padding: 8px;
-            border-radius: 8px;
-        }
-        
-        .demo-item strong {
-            color: #667eea;
-        }
-        
-        .alert {
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .login-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .login-wrapper { display: flex; max-width: 1200px; width: 100%; background: white; border-radius: 30px; overflow: hidden; box-shadow: 0 20px 25px rgba(0,0,0,0.15); }
+        .login-left { flex: 1; background: linear-gradient(135deg, #4361ee, #3f37c9); padding: 60px 40px; color: white; }
+        .login-left h1 { font-size: 2.5rem; margin-bottom: 20px; }
+        .login-left p { margin-bottom: 40px; opacity: 0.9; }
+        .features { display: flex; flex-direction: column; gap: 15px; }
+        .feature-item { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.1); padding: 12px 18px; border-radius: 50px; }
+        .login-right { flex: 1; padding: 60px 50px; }
+        .logo { text-align: center; margin-bottom: 40px; }
+        .logo i { font-size: 2.5rem; color: #4361ee; }
+        .logo h2 { font-size: 1.8rem; background: linear-gradient(135deg, #4361ee, #3f37c9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .role-selector { display: flex; gap: 12px; margin-bottom: 30px; background: #f0f0f0; padding: 8px; border-radius: 50px; }
+        .role-btn { flex: 1; padding: 12px; border: none; background: transparent; border-radius: 50px; font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: all 0.3s; }
+        .role-btn.active { background: white; color: #4361ee; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #333; }
+        .form-group input { width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 0.95rem; transition: all 0.3s; }
+        .form-group input:focus { outline: none; border-color: #4361ee; }
+        .login-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #4361ee, #3f37c9); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(67,97,238,0.3); }
+        .demo-credentials { margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 12px; font-size: 0.85rem; }
+        .demo-credentials p { margin: 5px 0; }
+        .notification { position: fixed; top: 20px; right: 20px; padding: 15px 25px; border-radius: 10px; display: flex; align-items: center; gap: 10px; z-index: 9999; animation: slideIn 0.3s ease; color: white; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <div class="login-card">
-            <div class="logo">
-                <i class="fas fa-graduation-cap" style="font-size: 50px; color: #667eea;"></i>
-                <h2>EduTrack Pro</h2>
-                <p>Student Management System</p>
+        <div class="login-wrapper">
+            <div class="login-left">
+                <h1>Welcome to EduTrack Pro</h1>
+                <p>Smart Academic Management System for Modern Education</p>
+                <div class="features">
+                    <div class="feature-item"><i class="fas fa-check-circle"></i><span>Real-time Attendance Tracking</span></div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i><span>Comprehensive Academic Management</span></div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i><span>24/7 Access to Educational Resources</span></div>
+                </div>
             </div>
-            
-            <?php if($error): ?>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="fas fa-exclamation-circle"></i> <?php echo $error; ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <div class="login-right">
+                <div class="logo"><i class="fas fa-graduation-cap"></i><h2>EduTrack Pro</h2></div>
+                <div class="role-selector">
+                    <button class="role-btn active" data-role="student">Student</button>
+                    <button class="role-btn" data-role="faculty">Faculty</button>
+                    <button class="role-btn" data-role="admin">Admin</button>
                 </div>
-            <?php endif; ?>
-            
-            <form method="POST" action="">
-                <div class="form-group">
-                    <label><i class="fas fa-user"></i> Username</label>
-                    <input type="text" name="username" placeholder="Enter your username" required autofocus>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-lock"></i> Password</label>
-                    <input type="password" name="password" placeholder="Enter your password" required>
-                </div>
-                <button type="submit" class="btn-login">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </button>
-            </form>
-            
-            <div class="demo-credentials">
-                <h6><i class="fas fa-info-circle"></i> Demo Credentials</h6>
-                <div class="demo-grid">
-                    <div class="demo-item">
-                        <strong>Admin:</strong> admin / admin123
-                    </div>
-                    <div class="demo-item">
-                        <strong>Student:</strong> IT181 / student123
-                    </div>
-                    <div class="demo-item">
-                        <strong>Faculty:</strong> FAC001 / faculty123
-                    </div>
-                    <div class="demo-item">
-                        <strong>Student:</strong> IT095 / student123
-                    </div>
+                <form id="loginForm">
+                    <div class="form-group"><label>Username / Email</label><input type="text" id="username" placeholder="Enter username or email" required></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="password" placeholder="Enter password" required></div>
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
+                <div class="demo-credentials">
+                    <p><strong>Demo Credentials:</strong></p>
+                    <p>Student: jenish / password123</p>
+                    <p>Faculty: aakash / password123</p>
+                    <p>Admin: admin / admin123</p>
                 </div>
             </div>
         </div>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let selectedRole = 'student';
+        document.querySelectorAll('.role-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                selectedRole = this.dataset.role;
+            });
+        });
+        
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            if(!username || !password) { showNotification('Please enter username and password', 'error'); return; }
+            
+            const formData = new FormData();
+            formData.append('action', 'login');
+            formData.append('username', username);
+            formData.append('password', password);
+            
+            try {
+                const response = await fetch('api/auth.php', { method: 'POST', body: formData });
+                const data = await response.json();
+                if(data.success) {
+                    showNotification('Login successful! Redirecting...', 'success');
+                    setTimeout(() => { window.location.href = data.role + '/dashboard.php'; }, 1000);
+                } else { showNotification(data.message, 'error'); }
+            } catch(error) { showNotification('Login failed. Please try again.', 'error'); }
+        });
+        
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.style.background = type === 'success' ? '#4cc9f0' : '#f72585';
+            notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
+            document.body.appendChild(notification);
+            setTimeout(() => { notification.style.animation = 'slideOut 0.3s ease'; setTimeout(() => notification.remove(), 300); }, 3000);
+        }
+    </script>
 </body>
 </html>
