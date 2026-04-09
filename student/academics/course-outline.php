@@ -23,7 +23,6 @@ $user = getUserData($conn, $_SESSION['user_id']);
         .sidebar { width: 280px; background: white; position: fixed; height: 100vh; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.05); transition: all 0.3s; z-index: 100; }
         .sidebar.collapsed { width: 80px; }
         .sidebar.collapsed .sidebar-nav a span, .sidebar.collapsed .sidebar-header h3 { display: none; }
-        .sidebar.collapsed .sidebar-nav a { justify-content: center; padding: 15px; }
         .sidebar-header { padding: 25px 20px; border-bottom: 1px solid #e9ecef; display: flex; align-items: center; justify-content: space-between; }
         .sidebar-header .logo { display: flex; align-items: center; gap: 10px; }
         .sidebar-header i { font-size: 2rem; color: #4361ee; }

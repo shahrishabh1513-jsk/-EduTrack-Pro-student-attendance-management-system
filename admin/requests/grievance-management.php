@@ -109,9 +109,9 @@ $user = getUserData($conn, $_SESSION['user_id']);
 
     <script>
         let grievances = [
-            { id: 1, student: 'Rishabh Sharma', roll: 'IT181', category: 'academic', title: 'Assignment Grading Issue', description: 'Requesting re-evaluation of Assignment 3', status: 'pending', date: '2024-03-10' },
-            { id: 2, student: 'Jenish Patel', roll: 'IT095', category: 'technical', title: 'LMS Access Problem', description: 'Unable to access student portal', status: 'in_progress', date: '2024-03-12' },
-            { id: 3, student: 'Vasu Mehta', roll: 'IT124', category: 'administrative', title: 'Scholarship Delay', description: 'Scholarship status pending', status: 'resolved', date: '2024-03-14', resolution: 'Scholarship approved' }
+            { id: 1, student: 'Rishabh Shah', roll: 'IT181', category: 'academic', title: 'Assignment Grading Issue', description: 'Requesting re-evaluation of Assignment 3', status: 'pending', date: '2024-03-10' },
+            { id: 2, student: 'Jenish khunt', roll: 'IT095', category: 'technical', title: 'LMS Access Problem', description: 'Unable to access student portal', status: 'in_progress', date: '2024-03-12' },
+            { id: 3, student: 'Vasu Motisarya', roll: 'IT124', category: 'administrative', title: 'Scholarship Delay', description: 'Scholarship status pending', status: 'resolved', date: '2024-03-14', resolution: 'Scholarship approved' }
         ];
         
         let currentGrievanceId = null;

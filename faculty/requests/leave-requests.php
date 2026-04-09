@@ -144,10 +144,10 @@ $user = getUserData($conn, $_SESSION['user_id']);
 
     <script>
         let leaveRequests = [
-            { id: 1, student: 'Rishabh Sharma', roll: 'IT181', class: 'CS301', type: 'medical', fromDate: '2024-03-20', toDate: '2024-03-22', reason: 'Suffering from viral fever. Need rest.', status: 'pending', appliedDate: '2024-03-19', contact: '9876543210', days: 3 },
-            { id: 2, student: 'Jenish Patel', roll: 'IT095', class: 'CS301', type: 'personal', fromDate: '2024-03-25', toDate: '2024-03-26', reason: 'Family function to attend. Will complete pending assignments.', status: 'pending', appliedDate: '2024-03-18', contact: '9876543211', days: 2 },
-            { id: 3, student: 'Vasu Mehta', roll: 'IT124', class: 'CS301', type: 'emergency', fromDate: '2024-03-18', toDate: '2024-03-19', reason: 'Urgent family matter at hometown.', status: 'approved', appliedDate: '2024-03-17', contact: '9876543212', days: 2, approvedBy: 'Dr. Aakash Gupta', approvedDate: '2024-03-17' },
-            { id: 4, student: 'Hetvi Shah', roll: 'IT131', class: 'CS301', type: 'medical', fromDate: '2024-03-15', toDate: '2024-03-16', reason: 'Doctor appointment for regular checkup.', status: 'rejected', appliedDate: '2024-03-14', contact: '9876543213', days: 2, remarks: 'Insufficient documentation. Please provide medical certificate.' },
+            { id: 1, student: 'Rishabh Shah', roll: 'IT181', class: 'CS301', type: 'medical', fromDate: '2024-03-20', toDate: '2024-03-22', reason: 'Suffering from viral fever. Need rest.', status: 'pending', appliedDate: '2024-03-19', contact: '9876543210', days: 3 },
+            { id: 2, student: 'Jenish khunt', roll: 'IT095', class: 'CS301', type: 'personal', fromDate: '2024-03-25', toDate: '2024-03-26', reason: 'Family function to attend. Will complete pending assignments.', status: 'pending', appliedDate: '2024-03-18', contact: '9876543211', days: 2 },
+            { id: 3, student: 'Vasu Motisarya', roll: 'IT124', class: 'CS301', type: 'emergency', fromDate: '2024-03-18', toDate: '2024-03-19', reason: 'Urgent family matter at hometown.', status: 'approved', appliedDate: '2024-03-17', contact: '9876543212', days: 2, approvedBy: 'Prof.Aakash Gupta', approvedDate: '2024-03-17' },
+            { id: 4, student: 'Hetvi Savani', roll: 'IT131', class: 'CS301', type: 'medical', fromDate: '2024-03-15', toDate: '2024-03-16', reason: 'Doctor appointment for regular checkup.', status: 'rejected', appliedDate: '2024-03-14', contact: '9876543213', days: 2, remarks: 'Insufficient documentation. Please provide medical certificate.' },
             { id: 5, student: 'Aarav Desai', roll: 'CSIT001', class: 'CS302', type: 'vacation', fromDate: '2024-04-01', toDate: '2024-04-05', reason: 'Family vacation planned.', status: 'pending', appliedDate: '2024-03-20', contact: '9876543214', days: 5 }
         ];
         

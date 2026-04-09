@@ -121,10 +121,10 @@ $user = getUserData($conn, $_SESSION['user_id']);
         let currentRoom = 'Room 101';
         let seats = {};
         let students = [
-            { id: 1, roll: 'IT181', name: 'Rishabh Sharma', allocated: false, seat: null },
-            { id: 2, roll: 'IT095', name: 'Jenish Patel', allocated: false, seat: null },
-            { id: 3, roll: 'IT124', name: 'Vasu Mehta', allocated: false, seat: null },
-            { id: 4, roll: 'IT131', name: 'Hetvi Shah', allocated: false, seat: null }
+            { id: 1, roll: 'IT181', name: 'Rishabh Shah', allocated: false, seat: null },
+            { id: 2, roll: 'IT095', name: 'Jenish khunt', allocated: false, seat: null },
+            { id: 3, roll: 'IT124', name: 'Vasu Motisarya', allocated: false, seat: null },
+            { id: 4, roll: 'IT131', name: 'Hetvi Savani', allocated: false, seat: null }
         ];
         
         function initSeats(room) {

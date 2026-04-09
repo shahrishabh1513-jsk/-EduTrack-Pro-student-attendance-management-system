@@ -106,7 +106,7 @@ $user = getUserData($conn, $_SESSION['user_id']);
     <script>
         let logs = [
             { id: 1, timestamp: '2024-03-20 09:15:23', user: 'admin', action: 'User Login', details: 'Admin logged in successfully', level: 'success', ip: '127.0.0.1' },
-            { id: 2, timestamp: '2024-03-20 10:30:45', user: 'admin', action: 'Student Added', details: 'New student Rishabh Sharma added', level: 'info', ip: '127.0.0.1' },
+            { id: 2, timestamp: '2024-03-20 10:30:45', user: 'admin', action: 'Student Added', details: 'New student Rishabh Shah added', level: 'info', ip: '127.0.0.1' },
             { id: 3, timestamp: '2024-03-19 14:20:10', user: 'aakash', action: 'Attendance Marked', details: 'Attendance marked for Data Structures class', level: 'info', ip: '127.0.0.1' },
             { id: 4, timestamp: '2024-03-19 11:05:32', user: 'admin', action: 'System Setting Changed', details: 'Academic year updated to 2024-2025', level: 'warning', ip: '127.0.0.1' },
             { id: 5, timestamp: '2024-03-18 16:45:22', user: 'jenish', action: 'Login Failed', details: 'Incorrect password attempt', level: 'error', ip: '127.0.0.1' }

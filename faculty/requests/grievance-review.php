@@ -137,10 +137,10 @@ $user = getUserData($conn, $_SESSION['user_id']);
 
     <script>
         let grievances = [
-            { id: 1, student: 'Rishabh Sharma', roll: 'IT181', category: 'academic', title: 'Issue with Assignment Grading', description: 'Requesting re-evaluation of Assignment 3 in Data Structures course.', status: 'pending', createdDate: '2024-03-10' },
-            { id: 2, student: 'Jenish Patel', roll: 'IT095', category: 'technical', title: 'Unable to access LMS', description: 'Student portal not working. Unable to download study materials.', status: 'in_progress', createdDate: '2024-03-12', assignedTo: 'IT Support' },
-            { id: 3, student: 'Vasu Mehta', roll: 'IT124', category: 'administrative', title: 'Scholarship Application Delay', description: 'Merit scholarship application status still showing pending.', status: 'pending', createdDate: '2024-03-14' },
-            { id: 4, student: 'Hetvi Shah', roll: 'IT131', category: 'academic', title: 'Class Schedule Conflict', description: 'Two subjects scheduled at same time slot.', status: 'resolved', createdDate: '2024-03-05', resolution: 'Schedule adjusted. New timetable uploaded.' }
+            { id: 1, student: 'Rishabh Shah', roll: 'IT181', category: 'academic', title: 'Issue with Assignment Grading', description: 'Requesting re-evaluation of Assignment 3 in Data Structures course.', status: 'pending', createdDate: '2024-03-10' },
+            { id: 2, student: 'Jenish khunt', roll: 'IT095', category: 'technical', title: 'Unable to access LMS', description: 'Student portal not working. Unable to download study materials.', status: 'in_progress', createdDate: '2024-03-12', assignedTo: 'IT Support' },
+            { id: 3, student: 'Vasu Motisarya', roll: 'IT124', category: 'administrative', title: 'Scholarship Application Delay', description: 'Merit scholarship application status still showing pending.', status: 'pending', createdDate: '2024-03-14' },
+            { id: 4, student: 'Hetvi Savani', roll: 'IT131', category: 'academic', title: 'Class Schedule Conflict', description: 'Two subjects scheduled at same time slot.', status: 'resolved', createdDate: '2024-03-05', resolution: 'Schedule adjusted. New timetable uploaded.' }
         ];
         
         let currentGrievanceId = null;

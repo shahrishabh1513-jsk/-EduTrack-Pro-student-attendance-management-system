@@ -22,10 +22,10 @@ function loadStudents() {
     
     // Sample student data
     const students = [
-        { id: 1, roll: 'IT181', name: 'Rishabh Sharma' },
-        { id: 2, roll: 'IT095', name: 'Jenish Patel' },
-        { id: 3, roll: 'IT124', name: 'Vasu Mehta' },
-        { id: 4, roll: 'IT131', name: 'Hetvi Shah' }
+        { id: 1, roll: 'IT181', name: 'Rishabh Shah' },
+        { id: 2, roll: 'IT095', name: 'Jenish khunt' },
+        { id: 3, roll: 'IT124', name: 'Vasu Motisarya' },
+        { id: 4, roll: 'IT131', name: 'Hetvi Savani' }
     ];
     
     const tableBody = document.getElementById('studentsTableBody');

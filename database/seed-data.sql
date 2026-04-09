@@ -9,9 +9,9 @@ USE `edutrack_db`;
 -- Insert Departments
 -- ======================================================
 INSERT INTO `departments` (`name`, `code`, `hod`, `established_year`, `email`, `phone`, `description`) VALUES
-('Computer Science', 'CS', 'Dr. Aakash Gupta', 2010, 'cs@edutrack.com', '+91 1234567890', 'Department of Computer Science offers B.Tech, M.Tech and PhD programs in various specializations.'),
+('Computer Science', 'CS', 'Prof.Aakash Gupta', 2010, 'cs@edutrack.com', '+91 1234567890', 'Department of Computer Science offers B.Tech, M.Tech and PhD programs in various specializations.'),
 ('Information Technology', 'IT', 'Prof. Neha Shah', 2012, 'it@edutrack.com', '+91 1234567891', 'Department of Information Technology focuses on software development and IT infrastructure.'),
-('Electronics', 'EC', 'Prof. Niraj Mehta', 2011, 'ec@edutrack.com', '+91 1234567892', 'Department of Electronics and Communication Engineering.'),
+('Electronics', 'EC', 'Dr. Niraj Shah', 2011, 'ec@edutrack.com', '+91 1234567892', 'Department of Electronics and Communication Engineering.'),
 ('Mechanical', 'ME', 'Dr. Rajesh Kumar', 2010, 'me@edutrack.com', '+91 1234567893', 'Department of Mechanical Engineering.'),
 ('Civil', 'CE', 'Prof. Sunil Verma', 2013, 'ce@edutrack.com', '+91 1234567894', 'Department of Civil Engineering.');
 
@@ -20,18 +20,18 @@ INSERT INTO `departments` (`name`, `code`, `hod`, `established_year`, `email`, `
 -- ======================================================
 INSERT INTO `users` (`username`, `email`, `password`, `role`, `full_name`, `phone`, `address`) VALUES
 -- Students
-('rishabh', 'rishabh@edutrack.com', MD5('password123'), 'student', 'Rishabh Sharma', '9876543210', '123 Student Hostel, Mumbai'),
-('jenish', 'jenish@edutrack.com', MD5('password123'), 'student', 'Jenish Patel', '9876543211', '45 College Road, Ahmedabad'),
-('vasu', 'vasu@edutrack.com', MD5('password123'), 'student', 'Vasu Mehta', '9876543212', '78 University Area, Surat'),
-('hetvi', 'hetvi@edutrack.com', MD5('password123'), 'student', 'Hetvi Shah', '9876543213', '12 Gandhi Nagar, Vadodara'),
+('rishabh', 'rishabh@edutrack.com', MD5('password123'), 'student', 'Rishabh Shah', '9876543210', '123 Student Hostel, Mumbai'),
+('jenish', 'jenish@edutrack.com', MD5('password123'), 'student', 'Jenish khunt', '9876543211', '45 College Road, Ahmedabad'),
+('vasu', 'vasu@edutrack.com', MD5('password123'), 'student', 'Vasu Motisarya', '9876543212', '78 University Area, Surat'),
+('hetvi', 'hetvi@edutrack.com', MD5('password123'), 'student', 'Hetvi Savani', '9876543213', '12 Gandhi Nagar, Vadodara'),
 ('aarav', 'aarav@edutrack.com', MD5('password123'), 'student', 'Aarav Desai', '9876543214', '22 Lake View, Mumbai'),
 ('kiara', 'kiara@edutrack.com', MD5('password123'), 'student', 'Kiara Mehta', '9876543215', '56 Park Street, Pune'),
 ('dev', 'dev@edutrack.com', MD5('password123'), 'student', 'Dev Patel', '9876543216', '89 IT Park, Bangalore'),
 
 -- Faculty
-('aakash', 'aakash@edutrack.com', MD5('password123'), 'faculty', 'Dr. Aakash Gupta', '9876543217', '45 Faculty Quarters, Mumbai'),
+('aakash', 'aakash@edutrack.com', MD5('password123'), 'faculty', 'Prof.Aakash Gupta', '9876543217', '45 Faculty Quarters, Mumbai'),
 ('neha', 'neha@edutrack.com', MD5('password123'), 'faculty', 'Prof. Neha Shah', '9876543218', '67 Teacher Colony, Mumbai'),
-('niraj', 'niraj@edutrack.com', MD5('password123'), 'faculty', 'Prof. Niraj Mehta', '9876543219', '89 Staff Housing, Mumbai'),
+('niraj', 'niraj@edutrack.com', MD5('password123'), 'faculty', 'Dr. Niraj Shah', '9876543219', '89 Staff Housing, Mumbai'),
 ('rajesh', 'rajesh@edutrack.com', MD5('password123'), 'faculty', 'Prof. Rajesh Kumar', '9876543220', '34 Staff Quarters, Mumbai'),
 
 -- Admin

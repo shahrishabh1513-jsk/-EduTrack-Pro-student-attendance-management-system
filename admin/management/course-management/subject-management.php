@@ -145,7 +145,7 @@ $result = mysqli_query($conn, $query);
             <h3><i class="fas fa-user-plus"></i> Assign Faculty to <span id="assignSubjectName"></span></h3>
             <form id="assignForm">
                 <input type="hidden" id="assignCourseId">
-                <div class="form-group"><label>Select Faculty</label><select class="form-control" id="facultySelect" required><option value="">-- Select Faculty --</option><option value="1">Dr. Aakash Gupta</option><option value="2">Prof. Neha Shah</option><option value="3">Prof. Niraj Mehta</option></select></div>
+                <div class="form-group"><label>Select Faculty</label><select class="form-control" id="facultySelect" required><option value="">-- Select Faculty --</option><option value="1">Prof.Aakash Gupta</option><option value="2">Prof. Neha Shah</option><option value="3">Dr. Niraj Shah</option></select></div>
                 <div class="form-group"><label>Semester</label><select class="form-control" id="assignSemester" required><option value="1">Semester 1</option><option value="2">Semester 2</option><option value="3">Semester 3</option><option value="4">Semester 4</option><option value="5">Semester 5</option><option value="6">Semester 6</option></select></div>
                 <div class="form-group"><label>Academic Year</label><input type="text" class="form-control" id="assignYear" value="2024-2025"></div>
                 <button type="submit" class="btn-add" style="width:100%; margin-top:10px;">Assign Faculty</button>

@@ -3,11 +3,11 @@
     {
       "id": 1,
       "student_id": 1,
-      "student_name": "Rishabh Sharma",
+      "student_name": "Rishabh Shah",
       "roll_number": "IT181",
       "category": "faculty",
       "target_id": 1,
-      "target_name": "Dr. Aakash Gupta",
+      "target_name": "Prof.Aakash Gupta",
       "rating": 5,
       "comments": "Excellent teaching style. Explains complex concepts with great clarity. Always available for doubts and provides practical examples.",
       "created_at": "2024-03-15"
@@ -15,7 +15,7 @@
     {
       "id": 2,
       "student_id": 2,
-      "student_name": "Jenish Patel",
+      "student_name": "Jenish khunt",
       "roll_number": "IT095",
       "category": "course",
       "target_id": 1,
@@ -27,7 +27,7 @@
     {
       "id": 3,
       "student_id": 3,
-      "student_name": "Vasu Mehta",
+      "student_name": "Vasu Motisarya",
       "roll_number": "IT124",
       "category": "faculty",
       "target_id": 2,
@@ -39,7 +39,7 @@
     {
       "id": 4,
       "student_id": 4,
-      "student_name": "Hetvi Shah",
+      "student_name": "Hetvi Savani",
       "roll_number": "IT131",
       "category": "general",
       "target_id": null,
@@ -55,7 +55,7 @@
       "roll_number": "CSIT001",
       "category": "faculty",
       "target_id": 3,
-      "target_name": "Prof. Niraj Mehta",
+      "target_name": "Dr. Niraj Shah",
       "rating": 3,
       "comments": "Good knowledge but pace is too fast sometimes. Would prefer more hands-on coding sessions.",
       "created_at": "2024-03-11"
@@ -63,7 +63,7 @@
     {
       "id": 6,
       "student_id": 1,
-      "student_name": "Rishabh Sharma",
+      "student_name": "Rishabh Shah",
       "roll_number": "IT181",
       "category": "course",
       "target_id": 2,

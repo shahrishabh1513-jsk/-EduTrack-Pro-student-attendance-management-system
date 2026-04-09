@@ -122,11 +122,11 @@ $user = getUserData($conn, $_SESSION['user_id']);
 
     <script>
         let feedbacks = [
-            { id: 1, student: 'Rishabh Sharma', roll: 'IT181', category: 'faculty', target: 'Dr. Aakash Gupta', rating: 5, comment: 'Excellent teaching style. Very clear explanations and great practical examples. Always available for doubts.', date: '2024-03-15' },
-            { id: 2, student: 'Jenish Patel', roll: 'IT095', category: 'course', target: 'Data Structures', rating: 4, comment: 'Good course content. Well structured curriculum. Could include more programming exercises.', date: '2024-03-14' },
-            { id: 3, student: 'Vasu Mehta', roll: 'IT124', category: 'faculty', target: 'Prof. Neha Shah', rating: 5, comment: 'Very helpful faculty. Explains complex topics easily. Great mentor.', date: '2024-03-13' },
-            { id: 4, student: 'Hetvi Shah', roll: 'IT131', category: 'general', target: 'Library', rating: 4, comment: 'Good library facilities. Need more reference books for Data Structures.', date: '2024-03-12' },
-            { id: 5, student: 'Aarav Desai', roll: 'CSIT001', category: 'faculty', target: 'Prof. Niraj Mehta', rating: 3, comment: 'Good knowledge but pace is too fast sometimes.', date: '2024-03-11' }
+            { id: 1, student: 'Rishabh Shah', roll: 'IT181', category: 'faculty', target: 'Prof.Aakash Gupta', rating: 5, comment: 'Excellent teaching style. Very clear explanations and great practical examples. Always available for doubts.', date: '2024-03-15' },
+            { id: 2, student: 'Jenish khunt', roll: 'IT095', category: 'course', target: 'Data Structures', rating: 4, comment: 'Good course content. Well structured curriculum. Could include more programming exercises.', date: '2024-03-14' },
+            { id: 3, student: 'Vasu Motisarya', roll: 'IT124', category: 'faculty', target: 'Prof. Neha Shah', rating: 5, comment: 'Very helpful faculty. Explains complex topics easily. Great mentor.', date: '2024-03-13' },
+            { id: 4, student: 'Hetvi Savani', roll: 'IT131', category: 'general', target: 'Library', rating: 4, comment: 'Good library facilities. Need more reference books for Data Structures.', date: '2024-03-12' },
+            { id: 5, student: 'Aarav Desai', roll: 'CSIT001', category: 'faculty', target: 'Dr. Niraj Shah', rating: 3, comment: 'Good knowledge but pace is too fast sometimes.', date: '2024-03-11' }
         ];
         
         function loadFeedback() {

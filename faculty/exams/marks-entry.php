@@ -127,10 +127,10 @@ $user = getUserData($conn, $_SESSION['user_id']);
 
     <script>
         let studentsData = [
-            { id: 1, roll: 'IT181', name: 'Rishabh Sharma', internal: 0, external: 0, total: 0, grade: '' },
-            { id: 2, roll: 'IT095', name: 'Jenish Patel', internal: 0, external: 0, total: 0, grade: '' },
-            { id: 3, roll: 'IT124', name: 'Vasu Mehta', internal: 0, external: 0, total: 0, grade: '' },
-            { id: 4, roll: 'IT131', name: 'Hetvi Shah', internal: 0, external: 0, total: 0, grade: '' }
+            { id: 1, roll: 'IT181', name: 'Rishabh Shah', internal: 0, external: 0, total: 0, grade: '' },
+            { id: 2, roll: 'IT095', name: 'Jenish khunt', internal: 0, external: 0, total: 0, grade: '' },
+            { id: 3, roll: 'IT124', name: 'Vasu Motisarya', internal: 0, external: 0, total: 0, grade: '' },
+            { id: 4, roll: 'IT131', name: 'Hetvi Savani', internal: 0, external: 0, total: 0, grade: '' }
         ];
         
         function loadStudents() {

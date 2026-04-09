@@ -8,7 +8,7 @@
           "time": "09:00 - 10:00",
           "course_code": "CS301",
           "course_name": "Data Structures",
-          "faculty": "Dr. Aakash Gupta",
+          "faculty": "Prof.Aakash Gupta",
           "room": "Room 101",
           "type": "Theory"
         },
@@ -24,7 +24,7 @@
           "time": "14:00 - 15:00",
           "course_code": "CS303",
           "course_name": "Web Development",
-          "faculty": "Prof. Niraj Mehta",
+          "faculty": "Dr. Niraj Shah",
           "room": "Lab 3",
           "type": "Practical"
         }
@@ -34,7 +34,7 @@
           "time": "10:00 - 11:00",
           "course_code": "CS303",
           "course_name": "Web Development",
-          "faculty": "Prof. Niraj Mehta",
+          "faculty": "Dr. Niraj Shah",
           "room": "Lab 3",
           "type": "Practical"
         },
@@ -42,7 +42,7 @@
           "time": "11:00 - 12:00",
           "course_code": "CS304",
           "course_name": "Operating Systems",
-          "faculty": "Dr. Aakash Gupta",
+          "faculty": "Prof.Aakash Gupta",
           "room": "Room 105",
           "type": "Theory"
         },
@@ -50,7 +50,7 @@
           "time": "14:00 - 15:00",
           "course_code": "CS301",
           "course_name": "Data Structures Lab",
-          "faculty": "Dr. Aakash Gupta",
+          "faculty": "Prof.Aakash Gupta",
           "room": "Lab 2",
           "type": "Practical"
         }
@@ -60,7 +60,7 @@
           "time": "09:00 - 10:00",
           "course_code": "CS301",
           "course_name": "Data Structures",
-          "faculty": "Dr. Aakash Gupta",
+          "faculty": "Prof.Aakash Gupta",
           "room": "Room 101",
           "type": "Theory"
         },
@@ -76,7 +76,7 @@
           "time": "14:00 - 15:00",
           "course_code": "CS304",
           "course_name": "Operating Systems Lab",
-          "faculty": "Dr. Aakash Gupta",
+          "faculty": "Prof.Aakash Gupta",
           "room": "Lab 1",
           "type": "Practical"
         }
@@ -94,7 +94,7 @@
           "time": "11:00 - 12:00",
           "course_code": "CS303",
           "course_name": "Web Development",
-          "faculty": "Prof. Niraj Mehta",
+          "faculty": "Dr. Niraj Shah",
           "room": "Lab 3",
           "type": "Practical"
         },
@@ -112,7 +112,7 @@
           "time": "09:00 - 10:00",
           "course_code": "CS304",
           "course_name": "Operating Systems",
-          "faculty": "Dr. Aakash Gupta",
+          "faculty": "Prof.Aakash Gupta",
           "room": "Room 105",
           "type": "Theory"
         },

@@ -133,10 +133,10 @@ $user = getUserData($conn, $_SESSION['user_id']);
 
     <script>
         let results = [
-            { id: 1, roll: 'IT181', name: 'Rishabh Sharma', course: 'CS301', courseName: 'Data Structures', internal: 28, external: 57, total: 85, grade: 'A', semester: 3 },
-            { id: 2, roll: 'IT095', name: 'Jenish Patel', course: 'CS301', courseName: 'Data Structures', internal: 29, external: 63, total: 92, grade: 'A+', semester: 3 },
-            { id: 3, roll: 'IT124', name: 'Vasu Mehta', course: 'CS301', courseName: 'Data Structures', internal: 25, external: 53, total: 78, grade: 'B+', semester: 3 },
-            { id: 4, roll: 'IT131', name: 'Hetvi Shah', course: 'CS301', courseName: 'Data Structures', internal: 27, external: 61, total: 88, grade: 'A', semester: 3 }
+            { id: 1, roll: 'IT181', name: 'Rishabh Shah', course: 'CS301', courseName: 'Data Structures', internal: 28, external: 57, total: 85, grade: 'A', semester: 3 },
+            { id: 2, roll: 'IT095', name: 'Jenish khunt', course: 'CS301', courseName: 'Data Structures', internal: 29, external: 63, total: 92, grade: 'A+', semester: 3 },
+            { id: 3, roll: 'IT124', name: 'Vasu Motisarya', course: 'CS301', courseName: 'Data Structures', internal: 25, external: 53, total: 78, grade: 'B+', semester: 3 },
+            { id: 4, roll: 'IT131', name: 'Hetvi Savani', course: 'CS301', courseName: 'Data Structures', internal: 27, external: 61, total: 88, grade: 'A', semester: 3 }
         ];
         
         function loadResults() {

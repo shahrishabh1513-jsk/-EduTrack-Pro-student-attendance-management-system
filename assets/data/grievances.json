@@ -3,7 +3,7 @@
     {
       "id": 1,
       "student_id": 1,
-      "student_name": "Rishabh Sharma",
+      "student_name": "Rishabh Shah",
       "roll_number": "IT181",
       "category": "academic",
       "title": "Assignment Grading Issue",
@@ -17,7 +17,7 @@
     {
       "id": 2,
       "student_id": 2,
-      "student_name": "Jenish Patel",
+      "student_name": "Jenish khunt",
       "roll_number": "IT095",
       "category": "technical",
       "title": "Unable to Access LMS Portal",
@@ -31,7 +31,7 @@
     {
       "id": 3,
       "student_id": 3,
-      "student_name": "Vasu Mehta",
+      "student_name": "Vasu Motisarya",
       "roll_number": "IT124",
       "category": "administrative",
       "title": "Scholarship Application Delay",
@@ -45,7 +45,7 @@
     {
       "id": 4,
       "student_id": 4,
-      "student_name": "Hetvi Shah",
+      "student_name": "Hetvi Savani",
       "roll_number": "IT131",
       "category": "academic",
       "title": "Class Schedule Conflict",

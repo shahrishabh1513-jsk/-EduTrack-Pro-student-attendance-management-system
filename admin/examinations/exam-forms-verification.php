@@ -129,10 +129,10 @@ $user = getUserData($conn, $_SESSION['user_id']);
 
     <script>
         let applications = [
-            { id: 1, student: 'Rishabh Sharma', roll: 'IT181', semester: 3, fee: 3900, subjects: 5, status: 'pending', appliedDate: '2024-03-15', paymentId: 'PAY123456' },
-            { id: 2, student: 'Jenish Patel', roll: 'IT095', semester: 3, fee: 3900, subjects: 5, status: 'pending', appliedDate: '2024-03-16', paymentId: 'PAY123457' },
-            { id: 3, student: 'Vasu Mehta', roll: 'IT124', semester: 3, fee: 3900, subjects: 5, status: 'verified', appliedDate: '2024-03-14', paymentId: 'PAY123458' },
-            { id: 4, student: 'Hetvi Shah', roll: 'IT131', semester: 3, fee: 3900, subjects: 5, status: 'pending', appliedDate: '2024-03-17', paymentId: 'PAY123459' }
+            { id: 1, student: 'Rishabh Shah', roll: 'IT181', semester: 3, fee: 3900, subjects: 5, status: 'pending', appliedDate: '2024-03-15', paymentId: 'PAY123456' },
+            { id: 2, student: 'Jenish khunt', roll: 'IT095', semester: 3, fee: 3900, subjects: 5, status: 'pending', appliedDate: '2024-03-16', paymentId: 'PAY123457' },
+            { id: 3, student: 'Vasu Motisarya', roll: 'IT124', semester: 3, fee: 3900, subjects: 5, status: 'verified', appliedDate: '2024-03-14', paymentId: 'PAY123458' },
+            { id: 4, student: 'Hetvi Savani', roll: 'IT131', semester: 3, fee: 3900, subjects: 5, status: 'pending', appliedDate: '2024-03-17', paymentId: 'PAY123459' }
         ];
         
         let currentFormId = null;

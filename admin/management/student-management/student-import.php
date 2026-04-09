@@ -109,8 +109,8 @@ $user = getUserData($conn, $_SESSION['user_id']);
         function processFile(file) {
             showNotification(`File "${file.name}" selected`, 'success');
             const sampleData = [
-                { roll: 'IT181', name: 'Rishabh Sharma', email: 'rishabh@edutrack.com', course: 'BSC IT', semester: 3 },
-                { roll: 'IT095', name: 'Jenish Patel', email: 'jenish@edutrack.com', course: 'BSC IT', semester: 3 }
+                { roll: 'IT181', name: 'Rishabh Shah', email: 'rishabh@edutrack.com', course: 'BSC IT', semester: 3 },
+                { roll: 'IT095', name: 'Jenish khunt', email: 'jenish@edutrack.com', course: 'BSC IT', semester: 3 }
             ];
             importedData = sampleData;
             displayPreview(sampleData);

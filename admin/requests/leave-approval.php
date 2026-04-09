@@ -95,9 +95,9 @@ $user = getUserData($conn, $_SESSION['user_id']);
 
     <script>
         let leaves = [
-            { id: 1, student: 'Rishabh Sharma', roll: 'IT181', type: 'medical', fromDate: '2024-03-20', toDate: '2024-03-22', days: 3, reason: 'Viral fever', status: 'pending', appliedDate: '2024-03-19' },
-            { id: 2, student: 'Jenish Patel', roll: 'IT095', type: 'personal', fromDate: '2024-03-25', toDate: '2024-03-26', days: 2, reason: 'Family function', status: 'pending', appliedDate: '2024-03-18' },
-            { id: 3, student: 'Vasu Mehta', roll: 'IT124', type: 'emergency', fromDate: '2024-03-18', toDate: '2024-03-19', days: 2, reason: 'Urgent matter', status: 'approved', appliedDate: '2024-03-17', approvedBy: 'Dr. Aakash Gupta' }
+            { id: 1, student: 'Rishabh Shah', roll: 'IT181', type: 'medical', fromDate: '2024-03-20', toDate: '2024-03-22', days: 3, reason: 'Viral fever', status: 'pending', appliedDate: '2024-03-19' },
+            { id: 2, student: 'Jenish khunt', roll: 'IT095', type: 'personal', fromDate: '2024-03-25', toDate: '2024-03-26', days: 2, reason: 'Family function', status: 'pending', appliedDate: '2024-03-18' },
+            { id: 3, student: 'Vasu Motisarya', roll: 'IT124', type: 'emergency', fromDate: '2024-03-18', toDate: '2024-03-19', days: 2, reason: 'Urgent matter', status: 'approved', appliedDate: '2024-03-17', approvedBy: 'Prof.Aakash Gupta' }
         ];
         
         let currentLeaveId = null;

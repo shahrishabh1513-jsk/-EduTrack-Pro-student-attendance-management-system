@@ -99,8 +99,8 @@ $user = getUserData($conn, $_SESSION['user_id']);
 
     <script>
         const students = [
-            { roll: 'IT181', name: 'Rishabh Sharma', fatherName: 'Rajesh Sharma', course: 'BSC IT', semester: 3, enrollment: 'ENR2023001', dob: '2004-05-15' },
-            { roll: 'IT095', name: 'Jenish Patel', fatherName: 'Raj Patel', course: 'BSC IT', semester: 3, enrollment: 'ENR2023002', dob: '2004-08-20' }
+            { roll: 'IT181', name: 'Rishabh Shah', fatherName: 'Rajesh Sharma', course: 'BSC IT', semester: 3, enrollment: 'ENR2023001', dob: '2004-05-15' },
+            { roll: 'IT095', name: 'Jenish khunt', fatherName: 'Raj Patel', course: 'BSC IT', semester: 3, enrollment: 'ENR2023002', dob: '2004-08-20' }
         ];
         
         const exams = [

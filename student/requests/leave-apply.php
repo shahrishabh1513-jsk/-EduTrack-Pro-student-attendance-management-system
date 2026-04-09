@@ -6,6 +6,34 @@ if (!isLoggedIn() || !hasRole('student')) {
 }
 
 $user = getUserData($conn, $_SESSION['user_id']);
+
+// Get student id
+$student_query = "SELECT id FROM students WHERE user_id = {$_SESSION['user_id']}";
+$student_result = mysqli_query($conn, $student_query);
+$student = mysqli_fetch_assoc($student_result);
+$student_id = $student['id'];
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $from_date = sanitize($_POST['from_date']);
+    $to_date = sanitize($_POST['to_date']);
+    $reason = sanitize($_POST['reason']);
+    $leave_type = sanitize($_POST['leave_type']);
+    $contact = sanitize($_POST['emergency_contact']);
+    
+    $insert_query = "INSERT INTO leave_applications (student_id, from_date, to_date, reason, leave_type, remarks) 
+                     VALUES ($student_id, '$from_date', '$to_date', '$reason', '$leave_type', '$contact')";
+    
+    if (mysqli_query($conn, $insert_query)) {
+        $success = "Leave application submitted successfully!";
+    } else {
+        $error = "Error submitting application";
+    }
+}
+
+// Fetch leave history
+$history_query = "SELECT * FROM leave_applications WHERE student_id = $student_id ORDER BY applied_at DESC";
+$history_result = mysqli_query($conn, $history_query);
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +51,6 @@ $user = getUserData($conn, $_SESSION['user_id']);
         .sidebar { width: 280px; background: white; position: fixed; height: 100vh; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.05); transition: all 0.3s; z-index: 100; }
         .sidebar.collapsed { width: 80px; }
         .sidebar.collapsed .sidebar-nav a span, .sidebar.collapsed .sidebar-header h3 { display: none; }
-        .sidebar.collapsed .sidebar-nav a { justify-content: center; padding: 15px; }
         .sidebar-header { padding: 25px 20px; border-bottom: 1px solid #e9ecef; display: flex; align-items: center; justify-content: space-between; }
         .sidebar-header .logo { display: flex; align-items: center; gap: 10px; }
         .sidebar-header i { font-size: 2rem; color: #4361ee; }
@@ -41,15 +68,14 @@ $user = getUserData($conn, $_SESSION['user_id']);
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 2px solid #e9ecef; border-radius: 10px; font-family: 'Poppins', sans-serif; }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #4361ee; }
         .btn-submit { background: linear-gradient(135deg, #4361ee, #3f37c9); color: white; padding: 14px 30px; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; }
         .leave-history { background: white; border-radius: 20px; padding: 30px; }
         .leave-item { border: 1px solid #e9ecef; border-radius: 15px; padding: 20px; margin-bottom: 15px; }
         .status-pending { color: #ffc107; font-weight: 600; }
         .status-approved { color: #4cc9f0; font-weight: 600; }
         .status-rejected { color: #f72585; font-weight: 600; }
-        .notification { position: fixed; top: 20px; right: 20px; padding: 15px 25px; border-radius: 10px; z-index: 9999; animation: slideIn 0.3s ease; color: white; }
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .alert-success { background: rgba(76,201,240,0.1); color: #4cc9f0; padding: 12px; border-radius: 10px; margin-bottom: 20px; }
+        .alert-error { background: rgba(247,37,133,0.1); color: #f72585; padding: 12px; border-radius: 10px; margin-bottom: 20px; }
         @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .sidebar.active { transform: translateX(0); } .main-content { margin-left: 0; } }
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
         @media (max-width: 768px) { .mobile-menu-btn { display: block; } }
@@ -83,50 +109,83 @@ $user = getUserData($conn, $_SESSION['user_id']);
                 </div>
             </header>
 
-            <div class="form-container"><h3 style="margin-bottom: 20px;">New Leave Application</h3>
-                <form id="leaveForm">
-                    <div class="form-group"><label>Leave Type</label><select id="leaveType" required><option value="medical">Medical Leave</option><option value="emergency">Emergency</option><option value="personal">Personal Leave</option><option value="vacation">Vacation</option></select></div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;"><div class="form-group"><label>From Date</label><input type="date" id="fromDate" required></div><div class="form-group"><label>To Date</label><input type="date" id="toDate" required></div></div>
-                    <div class="form-group"><label>Reason for Leave</label><textarea id="reason" rows="4" required placeholder="Please provide detailed reason..."></textarea></div>
-                    <div class="form-group"><label>Emergency Contact</label><input type="text" id="emergencyContact" placeholder="+91 98765 43210" required></div>
+            <div class="form-container">
+                <h3 style="margin-bottom: 20px;">New Leave Application</h3>
+                
+                <?php if(isset($success)): ?>
+                    <div class="alert-success"><?php echo $success; ?></div>
+                <?php endif; ?>
+                
+                <?php if(isset($error)): ?>
+                    <div class="alert-error"><?php echo $error; ?></div>
+                <?php endif; ?>
+                
+                <form method="POST">
+                    <div class="form-group">
+                        <label>Leave Type</label>
+                        <select name="leave_type" required>
+                            <option value="medical">Medical Leave</option>
+                            <option value="emergency">Emergency</option>
+                            <option value="personal">Personal Leave</option>
+                            <option value="vacation">Vacation</option>
+                        </select>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label>From Date</label>
+                            <input type="date" name="from_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>To Date</label>
+                            <input type="date" name="to_date" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Reason for Leave</label>
+                        <textarea name="reason" rows="4" required placeholder="Please provide detailed reason..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Emergency Contact</label>
+                        <input type="text" name="emergency_contact" placeholder="+91 98765 43210" required>
+                    </div>
+                    
                     <button type="submit" class="btn-submit">Submit Application</button>
                 </form>
             </div>
             
-            <div class="leave-history"><h3 style="margin-bottom: 20px;">My Leave History</h3><div id="leaveHistory">Loading...</div></div>
+            <div class="leave-history">
+                <h3 style="margin-bottom: 20px;">My Leave History</h3>
+                <?php if(mysqli_num_rows($history_result) > 0): ?>
+                    <?php while($leave = mysqli_fetch_assoc($history_result)): ?>
+                        <div class="leave-item">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <strong><?php echo ucfirst($leave['leave_type']); ?> Leave</strong>
+                                <span class="status-<?php echo $leave['status']; ?>"><?php echo strtoupper($leave['status']); ?></span>
+                            </div>
+                            <p><?php echo date('d M Y', strtotime($leave['from_date'])); ?> - <?php echo date('d M Y', strtotime($leave['to_date'])); ?></p>
+                            <p style="color: #6c757d;"><?php echo htmlspecialchars($leave['reason']); ?></p>
+                            <p style="font-size: 0.8rem; margin-top: 10px;">Applied: <?php echo date('d M Y', strtotime($leave['applied_at'])); ?></p>
+                            <?php if($leave['remarks']): ?>
+                                <p style="font-size: 0.8rem;">Remarks: <?php echo htmlspecialchars($leave['remarks']); ?></p>
+                            <?php endif; ?>
+                        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <p>No leave applications found.</p>
+                <?php endif; ?>
+            </div>
         </main>
     </div>
 
     <script>
-        async function loadLeaveHistory() {
-            try {
-                const response = await fetch('../../api/leave.php?action=get_my_leaves');
-                const data = await response.json();
-                if(data.success && data.data.length > 0) {
-                    const historyHTML = data.data.map(leave => `<div class="leave-item"><div style="display:flex;justify-content:space-between;margin-bottom:10px;"><strong>${leave.leave_type.toUpperCase()}</strong><span class="status-${leave.status}">${leave.status.toUpperCase()}</span></div><p>${new Date(leave.from_date).toLocaleDateString()} - ${new Date(leave.to_date).toLocaleDateString()}</p><p style="color:#6c757d;">${leave.reason}</p><p style="font-size:0.8rem;margin-top:10px;">Applied: ${new Date(leave.applied_at).toLocaleDateString()}</p>${leave.remarks ? `<p style="font-size:0.8rem;">Remarks: ${leave.remarks}</p>` : ''}</div>`).join('');
-                    document.getElementById('leaveHistory').innerHTML = historyHTML;
-                } else { document.getElementById('leaveHistory').innerHTML = '<p>No leave applications found.</p>'; }
-            } catch(error) { console.error('Error:', error); }
-        }
-        
-        document.getElementById('leaveForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const leaveData = { from_date: document.getElementById('fromDate').value, to_date: document.getElementById('toDate').value, reason: document.getElementById('reason').value, leave_type: document.getElementById('leaveType').value, emergency_contact: document.getElementById('emergencyContact').value };
-            try {
-                const response = await fetch('../../api/leave.php?action=apply', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(leaveData) });
-                const data = await response.json();
-                if(data.success) { showNotification('Leave application submitted successfully!', 'success'); this.reset(); loadLeaveHistory(); } else { showNotification(data.message, 'error'); }
-            } catch(error) { showNotification('Error submitting application', 'error'); }
-        });
-        
-        function showNotification(message, type) { const notification = document.createElement('div'); notification.className = 'notification'; notification.style.background = type === 'success' ? '#4cc9f0' : '#f72585'; notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`; document.body.appendChild(notification); setTimeout(() => notification.remove(), 3000); }
-        
         const sidebar = document.getElementById('sidebar'), mainContent = document.getElementById('mainContent'), toggleBtn = document.getElementById('toggleSidebar'), mobileMenuBtn = document.getElementById('mobileMenuBtn');
         if(toggleBtn) toggleBtn.addEventListener('click', function() { sidebar.classList.toggle('collapsed'); mainContent.classList.toggle('expanded'); });
         if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', function() { sidebar.classList.toggle('active'); });
         function handleResponsive() { if(window.innerWidth <= 768) { sidebar.classList.add('collapsed'); mainContent.classList.add('expanded'); } else { sidebar.classList.remove('collapsed', 'active'); mainContent.classList.remove('expanded'); } }
         window.addEventListener('resize', handleResponsive); handleResponsive();
-        loadLeaveHistory();
     </script>
 </body>
 </html>

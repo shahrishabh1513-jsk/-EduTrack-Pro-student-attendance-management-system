@@ -6,6 +6,16 @@ if (!isLoggedIn() || !hasRole('student')) {
 }
 
 $user = getUserData($conn, $_SESSION['user_id']);
+
+// Get student id
+$student_query = "SELECT id FROM students WHERE user_id = {$_SESSION['user_id']}";
+$student_result = mysqli_query($conn, $student_query);
+$student = mysqli_fetch_assoc($student_result);
+$student_id = $student['id'];
+
+// Fetch leave history
+$query = "SELECT * FROM leave_applications WHERE student_id = $student_id ORDER BY applied_at DESC";
+$result = mysqli_query($conn, $query);
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +33,6 @@ $user = getUserData($conn, $_SESSION['user_id']);
         .sidebar { width: 280px; background: white; position: fixed; height: 100vh; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.05); transition: all 0.3s; z-index: 100; }
         .sidebar.collapsed { width: 80px; }
         .sidebar.collapsed .sidebar-nav a span, .sidebar.collapsed .sidebar-header h3 { display: none; }
-        .sidebar.collapsed .sidebar-nav a { justify-content: center; padding: 15px; }
         .sidebar-header { padding: 25px 20px; border-bottom: 1px solid #e9ecef; display: flex; align-items: center; justify-content: space-between; }
         .sidebar-header .logo { display: flex; align-items: center; gap: 10px; }
         .sidebar-header i { font-size: 2rem; color: #4361ee; }
@@ -78,28 +87,38 @@ $user = getUserData($conn, $_SESSION['user_id']);
                 </div>
             </header>
 
-            <div id="leaveHistory">Loading...</div>
+            <div>
+                <?php if(mysqli_num_rows($result) > 0): ?>
+                    <?php while($leave = mysqli_fetch_assoc($result)): ?>
+                        <div class="leave-item status-<?php echo $leave['status']; ?>">
+                            <div class="leave-header">
+                                <span class="leave-type"><?php echo ucfirst($leave['leave_type']); ?> Leave</span>
+                                <span style="font-weight: 600;"><?php echo strtoupper($leave['status']); ?></span>
+                            </div>
+                            <div class="leave-dates">📅 <?php echo date('d M Y', strtotime($leave['from_date'])); ?> - <?php echo date('d M Y', strtotime($leave['to_date'])); ?></div>
+                            <div class="leave-reason">📝 <?php echo htmlspecialchars($leave['reason']); ?></div>
+                            <div class="leave-dates">📅 Applied: <?php echo date('d M Y', strtotime($leave['applied_at'])); ?></div>
+                            <?php if($leave['remarks']): ?>
+                                <div class="leave-dates">💬 Remarks: <?php echo htmlspecialchars($leave['remarks']); ?></div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <div style="background: white; border-radius: 15px; padding: 40px; text-align: center;">
+                        <i class="fas fa-calendar-times" style="font-size: 3rem; color: #6c757d;"></i>
+                        <p style="margin-top: 15px;">No leave applications found.</p>
+                    </div>
+                <?php endif; ?>
+            </div>
         </main>
     </div>
 
     <script>
-        async function loadLeaveHistory() {
-            try {
-                const response = await fetch('../../api/leave.php?action=get_my_leaves');
-                const data = await response.json();
-                if(data.success && data.data.length > 0) {
-                    const historyHTML = data.data.map(leave => `<div class="leave-item status-${leave.status}"><div class="leave-header"><span class="leave-type">${leave.leave_type.toUpperCase()}</span><span class="status-${leave.status}" style="font-weight:600;">${leave.status.toUpperCase()}</span></div><div class="leave-dates">📅 ${new Date(leave.from_date).toLocaleDateString()} - ${new Date(leave.to_date).toLocaleDateString()}</div><div class="leave-reason">📝 ${leave.reason}</div><div class="leave-dates">📅 Applied: ${new Date(leave.applied_at).toLocaleDateString()}</div>${leave.remarks ? `<div class="leave-dates">💬 Remarks: ${leave.remarks}</div>` : ''}</div>`).join('');
-                    document.getElementById('leaveHistory').innerHTML = historyHTML;
-                } else { document.getElementById('leaveHistory').innerHTML = '<p>No leave applications found.</p>'; }
-            } catch(error) { console.error('Error:', error); }
-        }
-        
         const sidebar = document.getElementById('sidebar'), mainContent = document.getElementById('mainContent'), toggleBtn = document.getElementById('toggleSidebar'), mobileMenuBtn = document.getElementById('mobileMenuBtn');
         if(toggleBtn) toggleBtn.addEventListener('click', function() { sidebar.classList.toggle('collapsed'); mainContent.classList.toggle('expanded'); });
         if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', function() { sidebar.classList.toggle('active'); });
         function handleResponsive() { if(window.innerWidth <= 768) { sidebar.classList.add('collapsed'); mainContent.classList.add('expanded'); } else { sidebar.classList.remove('collapsed', 'active'); mainContent.classList.remove('expanded'); } }
         window.addEventListener('resize', handleResponsive); handleResponsive();
-        loadLeaveHistory();
     </script>
 </body>
 </html>

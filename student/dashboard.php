@@ -157,9 +157,9 @@ $user = getUserData($conn, $_SESSION['user_id']);
                 }
                 
                 const timetable = [
-                    { time: '09:00 AM', subject: 'Data Structures', teacher: 'Dr. Aakash Gupta' },
+                    { time: '09:00 AM', subject: 'Data Structures', teacher: 'Prof.Aakash Gupta' },
                     { time: '11:00 AM', subject: 'Database Management', teacher: 'Prof. Neha Shah' },
-                    { time: '02:00 PM', subject: 'Web Development', teacher: 'Prof. Niraj Mehta' }
+                    { time: '02:00 PM', subject: 'Web Development', teacher: 'Dr. Niraj Shah' }
                 ];
                 const timetableHTML = timetable.map(item => `<div class="timetable-item"><div class="notice-icon"><i class="fas fa-book"></i></div><div><h4>${item.subject}</h4><p style="font-size:0.8rem;color:#6c757d;">${item.time} • ${item.teacher}</p></div></div>`).join('');
                 document.getElementById('todayTimetable').innerHTML = timetableHTML;

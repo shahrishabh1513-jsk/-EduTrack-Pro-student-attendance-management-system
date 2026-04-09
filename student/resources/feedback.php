@@ -82,7 +82,7 @@ $user = getUserData($conn, $_SESSION['user_id']);
             <div class="feedback-card">
                 <h3 style="margin-bottom:20px;">Faculty Feedback</h3>
                 <div class="rating-section"><label>Overall Rating</label><div class="stars" id="stars"><i class="far fa-star" onclick="rate(1)"></i><i class="far fa-star" onclick="rate(2)"></i><i class="far fa-star" onclick="rate(3)"></i><i class="far fa-star" onclick="rate(4)"></i><i class="far fa-star" onclick="rate(5)"></i></div></div>
-                <div class="form-group"><label>Faculty Name</label><select class="form-control" style="width:100%;padding:12px;border:2px solid #e9ecef;border-radius:10px;"><option>Dr. Aakash Gupta - Data Structures</option><option>Prof. Neha Shah - Database Management</option><option>Prof. Niraj Mehta - Web Development</option></select></div>
+                <div class="form-group"><label>Faculty Name</label><select class="form-control" style="width:100%;padding:12px;border:2px solid #e9ecef;border-radius:10px;"><option>Prof.Aakash Gupta - Data Structures</option><option>Prof. Neha Shah - Database Management</option><option>Dr. Niraj Shah - Web Development</option></select></div>
                 <div class="form-group"><label>Your Feedback</label><textarea id="comments" placeholder="Share your feedback about the faculty..."></textarea></div>
                 <button class="btn-submit" onclick="submitFeedback()">Submit Feedback</button>
             </div>

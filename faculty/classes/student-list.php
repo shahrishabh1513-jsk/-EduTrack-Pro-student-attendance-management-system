@@ -117,10 +117,10 @@ $class_code = $_GET['class'] ?? 'all';
 
     <script>
         const students = [
-            { roll: 'IT181', name: 'Rishabh Sharma', email: 'rishabh@edutrack.com', phone: '9876543210', class: 'CS301', className: 'Data Structures', attendance: 85, parentPhone: '9876543201', address: '123 Student Hostel, Mumbai', dob: '2004-05-15' },
-            { roll: 'IT095', name: 'Jenish Patel', email: 'jenish@edutrack.com', phone: '9876543211', class: 'CS301', className: 'Data Structures', attendance: 92, parentPhone: '9876543202', address: '45 College Road, Ahmedabad', dob: '2004-08-20' },
-            { roll: 'IT124', name: 'Vasu Mehta', email: 'vasu@edutrack.com', phone: '9876543212', class: 'CS301', className: 'Data Structures', attendance: 78, parentPhone: '9876543203', address: '78 University Area, Surat', dob: '2004-03-10' },
-            { roll: 'IT131', name: 'Hetvi Shah', email: 'hetvi@edutrack.com', phone: '9876543213', class: 'CS301', className: 'Data Structures', attendance: 88, parentPhone: '9876543204', address: '12 Gandhi Nagar, Vadodara', dob: '2004-06-25' },
+            { roll: 'IT181', name: 'Rishabh Shah', email: 'rishabh@edutrack.com', phone: '9876543210', class: 'CS301', className: 'Data Structures', attendance: 85, parentPhone: '9876543201', address: '123 Student Hostel, Mumbai', dob: '2004-05-15' },
+            { roll: 'IT095', name: 'Jenish khunt', email: 'jenish@edutrack.com', phone: '9876543211', class: 'CS301', className: 'Data Structures', attendance: 92, parentPhone: '9876543202', address: '45 College Road, Ahmedabad', dob: '2004-08-20' },
+            { roll: 'IT124', name: 'Vasu Motisarya', email: 'vasu@edutrack.com', phone: '9876543212', class: 'CS301', className: 'Data Structures', attendance: 78, parentPhone: '9876543203', address: '78 University Area, Surat', dob: '2004-03-10' },
+            { roll: 'IT131', name: 'Hetvi Savani', email: 'hetvi@edutrack.com', phone: '9876543213', class: 'CS301', className: 'Data Structures', attendance: 88, parentPhone: '9876543204', address: '12 Gandhi Nagar, Vadodara', dob: '2004-06-25' },
             { roll: 'CSIT001', name: 'Aarav Desai', email: 'aarav@edutrack.com', phone: '9876543214', class: 'CS302', className: 'Database Management', attendance: 90, parentPhone: '9876543205', address: '22 Lake View, Mumbai', dob: '2004-02-10' },
             { roll: 'CSIT002', name: 'Kiara Mehta', email: 'kiara@edutrack.com', phone: '9876543215', class: 'CS302', className: 'Database Management', attendance: 85, parentPhone: '9876543206', address: '56 Park Street, Pune', dob: '2004-07-18' },
             { roll: 'CSIT003', name: 'Dev Patel', email: 'dev@edutrack.com', phone: '9876543216', class: 'CS303', className: 'Web Development', attendance: 75, parentPhone: '9876543207', address: '89 IT Park, Bangalore', dob: '2004-01-30' }

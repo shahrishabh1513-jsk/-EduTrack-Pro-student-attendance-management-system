@@ -99,10 +99,10 @@ $user = getUserData($conn, $_SESSION['user_id']);
 
     <script>
         const students = [
-            { roll: 'IT181', name: 'Rishabh Sharma', dept: 'Computer Science', semester: 3, present: 42, total: 48, percent: 88 },
-            { roll: 'IT095', name: 'Jenish Patel', dept: 'Computer Science', semester: 3, present: 44, total: 48, percent: 92 },
-            { roll: 'IT124', name: 'Vasu Mehta', dept: 'Computer Science', semester: 3, present: 37, total: 48, percent: 77 },
-            { roll: 'IT131', name: 'Hetvi Shah', dept: 'Computer Science', semester: 3, present: 43, total: 48, percent: 90 }
+            { roll: 'IT181', name: 'Rishabh Shah', dept: 'Computer Science', semester: 3, present: 42, total: 48, percent: 88 },
+            { roll: 'IT095', name: 'Jenish khunt', dept: 'Computer Science', semester: 3, present: 44, total: 48, percent: 92 },
+            { roll: 'IT124', name: 'Vasu Motisarya', dept: 'Computer Science', semester: 3, present: 37, total: 48, percent: 77 },
+            { roll: 'IT131', name: 'Hetvi Savani', dept: 'Computer Science', semester: 3, present: 43, total: 48, percent: 90 }
         ];
         
         function generateReport() {

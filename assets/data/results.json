@@ -3,7 +3,7 @@
     {
       "id": 1,
       "student_id": 1,
-      "student_name": "Rishabh Sharma",
+      "student_name": "Rishabh Shah",
       "roll_number": "IT181",
       "course_id": 1,
       "course_code": "CS301",
@@ -20,7 +20,7 @@
     {
       "id": 2,
       "student_id": 1,
-      "student_name": "Rishabh Sharma",
+      "student_name": "Rishabh Shah",
       "roll_number": "IT181",
       "course_id": 2,
       "course_code": "CS302",
@@ -37,7 +37,7 @@
     {
       "id": 3,
       "student_id": 1,
-      "student_name": "Rishabh Sharma",
+      "student_name": "Rishabh Shah",
       "roll_number": "IT181",
       "course_id": 3,
       "course_code": "CS303",
@@ -54,7 +54,7 @@
     {
       "id": 4,
       "student_id": 1,
-      "student_name": "Rishabh Sharma",
+      "student_name": "Rishabh Shah",
       "roll_number": "IT181",
       "course_id": 4,
       "course_code": "CS304",
@@ -71,7 +71,7 @@
     {
       "id": 5,
       "student_id": 1,
-      "student_name": "Rishabh Sharma",
+      "student_name": "Rishabh Shah",
       "roll_number": "IT181",
       "course_id": 5,
       "course_code": "CS305",
@@ -88,7 +88,7 @@
     {
       "id": 6,
       "student_id": 2,
-      "student_name": "Jenish Patel",
+      "student_name": "Jenish khunt",
       "roll_number": "IT095",
       "course_id": 1,
       "course_code": "CS301",
@@ -110,9 +110,9 @@
     "first_class_percentage": 42,
     "average_cgpa": 8.5,
     "top_performers": [
-      { "rank": 1, "name": "Hetvi Shah", "cgpa": 9.2, "roll": "IT131" },
-      { "rank": 2, "name": "Jenish Patel", "cgpa": 9.0, "roll": "IT095" },
-      { "rank": 3, "name": "Rishabh Sharma", "cgpa": 8.8, "roll": "IT181" }
+      { "rank": 1, "name": "Hetvi Savani", "cgpa": 9.2, "roll": "IT131" },
+      { "rank": 2, "name": "Jenish khunt", "cgpa": 9.0, "roll": "IT095" },
+      { "rank": 3, "name": "Rishabh Shah", "cgpa": 8.8, "roll": "IT181" }
     ]
   }
 }

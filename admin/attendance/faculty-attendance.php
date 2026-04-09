@@ -99,9 +99,9 @@ $user = getUserData($conn, $_SESSION['user_id']);
 
     <script>
         const faculty = [
-            { id: 1, empId: 'FAC001', name: 'Dr. Aakash Gupta', dept: 'Computer Science', designation: 'Professor', attendance: 95, present: 38, total: 40 },
+            { id: 1, empId: 'FAC001', name: 'Prof.Aakash Gupta', dept: 'Computer Science', designation: 'Professor', attendance: 95, present: 38, total: 40 },
             { id: 2, empId: 'FAC002', name: 'Prof. Neha Shah', dept: 'Computer Science', designation: 'Associate Professor', attendance: 88, present: 35, total: 40 },
-            { id: 3, empId: 'FAC003', name: 'Prof. Niraj Mehta', dept: 'Computer Science', designation: 'Assistant Professor', attendance: 92, present: 37, total: 40 }
+            { id: 3, empId: 'FAC003', name: 'Dr. Niraj Shah', dept: 'Computer Science', designation: 'Assistant Professor', attendance: 92, present: 37, total: 40 }
         ];
         
         function loadAttendance() {

@@ -96,10 +96,10 @@ $user = getUserData($conn, $_SESSION['user_id']);
 
     <script>
         const attendanceData = [
-            { date: '2024-03-20', student: 'Rishabh Sharma', roll: 'IT181', subject: 'Data Structures', status: 'present' },
-            { date: '2024-03-20', student: 'Jenish Patel', roll: 'IT095', subject: 'Data Structures', status: 'present' },
-            { date: '2024-03-20', student: 'Vasu Mehta', roll: 'IT124', subject: 'Data Structures', status: 'absent' },
-            { date: '2024-03-20', student: 'Hetvi Shah', roll: 'IT131', subject: 'Data Structures', status: 'present' }
+            { date: '2024-03-20', student: 'Rishabh Shah', roll: 'IT181', subject: 'Data Structures', status: 'present' },
+            { date: '2024-03-20', student: 'Jenish khunt', roll: 'IT095', subject: 'Data Structures', status: 'present' },
+            { date: '2024-03-20', student: 'Vasu Motisarya', roll: 'IT124', subject: 'Data Structures', status: 'absent' },
+            { date: '2024-03-20', student: 'Hetvi Savani', roll: 'IT131', subject: 'Data Structures', status: 'present' }
         ];
         
         function loadAttendance() {

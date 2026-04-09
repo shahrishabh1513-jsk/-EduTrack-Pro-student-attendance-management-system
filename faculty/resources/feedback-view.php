@@ -91,10 +91,10 @@ $user = getUserData($conn, $_SESSION['user_id']);
 
     <script>
         let feedbacks = [
-            { id: 1, student: 'Rishabh Sharma', roll: 'IT181', subject: 'Data Structures', rating: 5, comment: 'Excellent teaching style. Very clear explanations.', date: '2024-03-15' },
-            { id: 2, student: 'Jenish Patel', roll: 'IT095', subject: 'Data Structures', rating: 4, comment: 'Good course content. Would like more practical examples.', date: '2024-03-14' },
-            { id: 3, student: 'Vasu Mehta', roll: 'IT124', subject: 'Database Management', rating: 5, comment: 'Very helpful faculty. Always available for doubts.', date: '2024-03-13' },
-            { id: 4, student: 'Hetvi Shah', roll: 'IT131', subject: 'Web Development', rating: 4, comment: 'Good practical sessions. Projects are challenging.', date: '2024-03-12' }
+            { id: 1, student: 'Rishabh Shah', roll: 'IT181', subject: 'Data Structures', rating: 5, comment: 'Excellent teaching style. Very clear explanations.', date: '2024-03-15' },
+            { id: 2, student: 'Jenish khunt', roll: 'IT095', subject: 'Data Structures', rating: 4, comment: 'Good course content. Would like more practical examples.', date: '2024-03-14' },
+            { id: 3, student: 'Vasu Motisarya', roll: 'IT124', subject: 'Database Management', rating: 5, comment: 'Very helpful faculty. Always available for doubts.', date: '2024-03-13' },
+            { id: 4, student: 'Hetvi Savani', roll: 'IT131', subject: 'Web Development', rating: 4, comment: 'Good practical sessions. Projects are challenging.', date: '2024-03-12' }
         ];
         
         function loadFeedbacks() {

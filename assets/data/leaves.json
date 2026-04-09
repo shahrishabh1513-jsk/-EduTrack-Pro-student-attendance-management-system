@@ -3,7 +3,7 @@
     {
       "id": 1,
       "student_id": 1,
-      "student_name": "Rishabh Sharma",
+      "student_name": "Rishabh Shah",
       "roll_number": "IT181",
       "class": "CS301",
       "type": "medical",
@@ -21,7 +21,7 @@
     {
       "id": 2,
       "student_id": 2,
-      "student_name": "Jenish Patel",
+      "student_name": "Jenish khunt",
       "roll_number": "IT095",
       "class": "CS301",
       "type": "personal",
@@ -39,7 +39,7 @@
     {
       "id": 3,
       "student_id": 3,
-      "student_name": "Vasu Mehta",
+      "student_name": "Vasu Motisarya",
       "roll_number": "IT124",
       "class": "CS301",
       "type": "emergency",
@@ -51,13 +51,13 @@
       "applied_date": "2024-03-17",
       "contact": "9876543212",
       "remarks": "Approved - Submit travel proof",
-      "approved_by": "Dr. Aakash Gupta",
+      "approved_by": "Prof.Aakash Gupta",
       "approved_date": "2024-03-17"
     },
     {
       "id": 4,
       "student_id": 4,
-      "student_name": "Hetvi Shah",
+      "student_name": "Hetvi Savani",
       "roll_number": "IT131",
       "class": "CS301",
       "type": "medical",

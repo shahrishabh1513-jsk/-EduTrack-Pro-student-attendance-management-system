@@ -37,27 +37,17 @@ $user = getUserData($conn, $_SESSION['user_id']);
         .top-header { background: white; padding: 15px 25px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
         .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .user-profile img { width: 40px; height: 40px; border-radius: 50%; }
-        .filter-bar { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; align-items: center; }
-        .filter-select { padding: 10px 15px; border: 2px solid #e9ecef; border-radius: 10px; font-family: 'Poppins', sans-serif; }
-        .btn-generate { background: #4361ee; color: white; border: none; padding: 10px 25px; border-radius: 10px; cursor: pointer; }
-        .btn-export { background: #28a745; color: white; border: none; padding: 10px 25px; border-radius: 10px; cursor: pointer; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .stat-card { background: white; padding: 20px; border-radius: 15px; text-align: center; }
         .stat-value { font-size: 2rem; font-weight: 700; color: #4361ee; }
-        .chart-container { background: white; border-radius: 20px; padding: 25px; margin-bottom: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-        .report-table { background: white; border-radius: 20px; padding: 25px; overflow-x: auto; margin-bottom: 20px; }
+        .chart-container { background: white; border-radius: 20px; padding: 25px; margin-bottom: 30px; }
+        .report-table { background: white; border-radius: 20px; padding: 25px; overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e9ecef; }
         th { background: #f8f9fa; font-weight: 600; }
-        .grade-aplus { color: #4cc9f0; font-weight: 600; }
-        .grade-a { color: #4361ee; font-weight: 600; }
-        .progress-bar { height: 6px; background: #e9ecef; border-radius: 10px; width: 100px; display: inline-block; margin-left: 10px; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #4361ee, #4cc9f0); border-radius: 10px; }
-        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .sidebar.active { transform: translateX(0); } .main-content { margin-left: 0; } .chart-container { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .sidebar.active { transform: translateX(0); } .main-content { margin-left: 0; } }
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
         @media (max-width: 768px) { .mobile-menu-btn { display: block; } }
-        .notification { position: fixed; top: 20px; right: 20px; padding: 15px 25px; border-radius: 10px; z-index: 9999; animation: slideIn 0.3s ease; color: white; }
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     </style>
 </head>
 <body>
@@ -89,91 +79,58 @@ $user = getUserData($conn, $_SESSION['user_id']);
                 </div>
             </header>
 
-            <div class="filter-bar">
-                <select class="filter-select" id="semesterFilter"><option value="all">All Semesters</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
-                <select class="filter-select" id="deptFilter"><option value="all">All Departments</option><option>Computer Science</option><option>Information Technology</option><option>Electronics</option></select>
-                <button class="btn-generate" onclick="generateReport()"><i class="fas fa-sync-alt"></i> Generate</button>
-                <button class="btn-export" onclick="exportReport()"><i class="fas fa-download"></i> Export PDF</button>
-            </div>
-
             <div class="stats-grid">
-                <div class="stat-card"><div class="stat-value" id="avgCgpa">0</div><div>Average CGPA</div></div>
-                <div class="stat-card"><div class="stat-value" id="passPercent">0%</div><div>Pass Percentage</div></div>
-                <div class="stat-card"><div class="stat-value" id="distinctionCount">0</div><div>Distinction (75%+)</div></div>
-                <div class="stat-card"><div class="stat-value" id="firstClassCount">0</div><div>First Class (60-74%)</div></div>
+                <div class="stat-card"><div class="stat-value" id="avgCgpa">8.5</div><div>Average CGPA</div></div>
+                <div class="stat-card"><div class="stat-value" id="passPercent">92%</div><div>Pass Percentage</div></div>
+                <div class="stat-card"><div class="stat-value" id="distinctionCount">1250</div><div>Distinction (75%+)</div></div>
+                <div class="stat-card"><div class="stat-value" id="firstClassCount">980</div><div>First Class (60-74%)</div></div>
             </div>
 
             <div class="chart-container">
-                <canvas id="gradeChart"></canvas>
-                <canvas id="deptChart"></canvas>
+                <canvas id="performanceChart" style="max-height: 300px; width: 100%;"></canvas>
             </div>
 
-            <div class="report-table"><h3 style="margin-bottom:20px;">Department-wise Academic Performance</h3><div id="deptTable"></div></div>
-            <div class="report-table"><h3 style="margin-bottom:20px;">Top Performing Students</h3><div id="topStudentsTable"></div></div>
+            <div class="report-table">
+                <h3 style="margin-bottom:20px;">Department-wise Academic Performance</h3>
+                <table>
+                    <thead><tr><th>Department</th><th>Students</th><th>Avg CGPA</th><th>Pass %</th><th>Distinction</th><th>First Class</th></tr></thead>
+                    <tbody>
+                        <tr><td>Computer Science</td><td>850</td><td>8.5</td><td>92%</td><td>320</td><td>380</td></tr>
+                        <tr><td>Information Technology</td><td>620</td><td>8.3</td><td>90%</td><td>220</td><td>280</td></tr>
+                        <tr><td>Electronics</td><td>450</td><td>7.8</td><td>85%</td><td>120</td><td>200</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </main>
     </div>
 
     <script>
-        const departments = [
-            { name: 'Computer Science', students: 850, avgCgpa: 8.5, passPercent: 92, distinction: 320, firstClass: 380 },
-            { name: 'Information Technology', students: 620, avgCgpa: 8.3, passPercent: 90, distinction: 220, firstClass: 280 },
-            { name: 'Electronics', students: 450, avgCgpa: 7.8, passPercent: 85, distinction: 120, firstClass: 200 }
-        ];
-        
-        const topStudents = [
-            { rank: 1, name: 'Hetvi Shah', roll: 'IT131', cgpa: 9.2, dept: 'Computer Science' },
-            { rank: 2, name: 'Jenish Patel', roll: 'IT095', cgpa: 9.0, dept: 'Computer Science' },
-            { rank: 3, name: 'Rishabh Sharma', roll: 'IT181', cgpa: 8.8, dept: 'Computer Science' },
-            { rank: 4, name: 'Aarav Desai', roll: 'CSIT001', cgpa: 8.6, dept: 'Information Technology' },
-            { rank: 5, name: 'Vasu Mehta', roll: 'IT124', cgpa: 8.4, dept: 'Computer Science' }
-        ];
-        
-        let gradeChart = null, deptChart = null;
-        
-        function generateReport() {
-            const totalStudents = departments.reduce((s, d) => s + d.students, 0);
-            const avgCgpa = (departments.reduce((s, d) => s + (d.avgCgpa * d.students), 0) / totalStudents).toFixed(1);
-            const passPercent = Math.round(departments.reduce((s, d) => s + (d.passPercent * d.students), 0) / totalStudents);
-            const distinction = departments.reduce((s, d) => s + d.distinction, 0);
-            const firstClass = departments.reduce((s, d) => s + d.firstClass, 0);
-            
-            document.getElementById('avgCgpa').textContent = avgCgpa;
-            document.getElementById('passPercent').textContent = passPercent + '%';
-            document.getElementById('distinctionCount').textContent = distinction;
-            document.getElementById('firstClassCount').textContent = firstClass;
-            
-            if(gradeChart) gradeChart.destroy();
-            const gradeCtx = document.getElementById('gradeChart').getContext('2d');
-            gradeChart = new Chart(gradeCtx, {
-                type: 'doughnut',
-                data: { labels: ['Distinction (75%+)', 'First Class (60-74%)', 'Second Class (50-59%)', 'Pass (40-49%)'], datasets: [{ data: [distinction, firstClass, 150, 80], backgroundColor: ['#4cc9f0', '#4361ee', '#3f37c9', '#4895ef'], borderWidth: 0 }] },
-                options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-            });
-            
-            if(deptChart) deptChart.destroy();
-            const deptCtx = document.getElementById('deptChart').getContext('2d');
-            deptChart = new Chart(deptCtx, {
-                type: 'bar',
-                data: { labels: departments.map(d => d.name), datasets: [{ label: 'Average CGPA', data: departments.map(d => d.avgCgpa), backgroundColor: '#4361ee', borderRadius: 8 }] },
-                options: { responsive: true, scales: { y: { beginAtZero: true, max: 10 } } }
-            });
-            
-            const deptHTML = `<table><thead><tr><th>Department</th><th>Students</th><th>Avg CGPA</th><th>Pass %</th><th>Distinction</th><th>First Class</th></tr></thead><tbody>${departments.map(d => `<tr><td><strong>${d.name}</strong></td><td>${d.students}</td><td>${d.avgCgpa}</td><td>${d.passPercent}%<div class="progress-bar"><div class="progress-fill" style="width:${d.passPercent}%"></div></div></td><td>${d.distinction}</td><td>${d.firstClass}</td>`).join('')}</tbody></table>`;
-            document.getElementById('deptTable').innerHTML = deptHTML;
-            
-            const topHTML = `<table><thead><td><th>Rank</th><th>Student Name</th><th>Roll No</th><th>Department</th><th>CGPA</th></tr></thead><tbody>${topStudents.map(s => `<tr><td><span style="background:#4361ee; color:white; padding:4px 10px; border-radius:20px;">#${s.rank}</span></td><td><strong>${s.name}</strong></td><td>${s.roll}</td><td>${s.dept}</td><td class="grade-aplus">${s.cgpa}</td>`).join('')}</tbody></table>`;
-            document.getElementById('topStudentsTable').innerHTML = topHTML;
-        }
-        
-        function exportReport() { showNotification('Report exported!', 'success'); }
-        function showNotification(message, type) { const n = document.createElement('div'); n.className = 'notification'; n.style.background = type === 'success' ? '#4cc9f0' : '#f72585'; n.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`; document.body.appendChild(n); setTimeout(() => n.remove(), 3000); }
-        
+        // Performance Chart
+        const perfCtx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(perfCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Sem 5', 'Sem 6'],
+                datasets: [{
+                    label: 'Average CGPA',
+                    data: [7.8, 8.0, 8.5, 8.3, 8.2, 8.4],
+                    backgroundColor: '#4361ee',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: { y: { beginAtZero: true, max: 10, title: { display: true, text: 'CGPA' } } },
+                plugins: { legend: { position: 'top' } }
+            }
+        });
+
         const sidebar = document.getElementById('sidebar'), mainContent = document.getElementById('mainContent'), toggleBtn = document.getElementById('toggleSidebar'), mobileMenuBtn = document.getElementById('mobileMenuBtn');
         if(toggleBtn) toggleBtn.addEventListener('click', function() { sidebar.classList.toggle('collapsed'); mainContent.classList.toggle('expanded'); });
         if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', function() { sidebar.classList.toggle('active'); });
         function handleResponsive() { if(window.innerWidth <= 768) { sidebar.classList.add('collapsed'); mainContent.classList.add('expanded'); } else { sidebar.classList.remove('collapsed', 'active'); mainContent.classList.remove('expanded'); } }
         window.addEventListener('resize', handleResponsive); handleResponsive();
-        generateReport();
     </script>
 </body>
 </html>
