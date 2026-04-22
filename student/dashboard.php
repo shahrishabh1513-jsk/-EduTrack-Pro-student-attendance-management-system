@@ -19,45 +19,172 @@ $user = getUserData($conn, $_SESSION['user_id']);
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; background: #f8f9fa; }
+        
         .dashboard-container { display: flex; min-height: 100vh; }
-        .sidebar { width: 280px; background: white; position: fixed; height: 100vh; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.05); transition: all 0.3s; z-index: 100; }
+        
+        .sidebar {
+            width: 280px;
+            background: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
         .sidebar.collapsed { width: 80px; }
-        .sidebar.collapsed .sidebar-nav a span, .sidebar.collapsed .sidebar-header h3 { display: none; }
+        .sidebar.collapsed .sidebar-nav a span,
+        .sidebar.collapsed .sidebar-header h3 { display: none; }
         .sidebar.collapsed .sidebar-nav a { justify-content: center; padding: 15px; }
-        .sidebar-header { padding: 25px 20px; border-bottom: 1px solid #e9ecef; display: flex; align-items: center; justify-content: space-between; }
+        
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
         .sidebar-header .logo { display: flex; align-items: center; gap: 10px; }
         .sidebar-header i { font-size: 2rem; color: #4361ee; }
         .sidebar-header h3 { font-size: 1.2rem; color: #1e293b; }
-        .toggle-sidebar { background: none; border: none; cursor: pointer; font-size: 1.2rem; color: #6c757d; }
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #6c757d;
+        }
+        
         .sidebar-nav { padding: 20px 0; }
-        .sidebar-nav a { display: flex; align-items: center; gap: 15px; padding: 12px 20px; color: #6c757d; text-decoration: none; transition: all 0.3s; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 20px;
+            color: #6c757d;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
         .sidebar-nav a:hover, .sidebar-nav a.active { background: rgba(67,97,238,0.05); color: #4361ee; border-left: 4px solid #4361ee; }
-        .main-content { flex: 1; margin-left: 280px; padding: 20px 30px; transition: all 0.3s; }
+        
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 20px 30px;
+            transition: all 0.3s;
+        }
         .main-content.expanded { margin-left: 80px; }
-        .top-header { background: white; padding: 15px 25px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        
+        .top-header {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
         .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .user-profile img { width: 40px; height: 40px; border-radius: 50%; }
-        .welcome-banner { background: linear-gradient(135deg, #4361ee, #3f37c9); padding: 30px; border-radius: 20px; color: white; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; margin-bottom: 30px; }
-        .stat-card { background: white; padding: 25px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s; cursor: pointer; }
+        
+        .welcome-banner {
+            background: linear-gradient(135deg, #4361ee, #3f37c9);
+            padding: 30px;
+            border-radius: 20px;
+            color: white;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
         .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.07); }
         .stat-number { font-size: 2rem; font-weight: 700; color: #1e293b; }
         .stat-icon { width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
         .stat-icon.blue { background: rgba(67,97,238,0.1); color: #4361ee; }
         .stat-icon.green { background: rgba(76,201,240,0.1); color: #4cc9f0; }
         .stat-icon.orange { background: rgba(247,37,133,0.1); color: #f72585; }
-        .content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
-        .content-card { background: white; border-radius: 20px; padding: 25px; }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e9ecef; }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
         .card-header a { color: #4361ee; text-decoration: none; }
-        .notice-item, .timetable-item { display: flex; align-items: center; gap: 15px; padding: 12px 0; border-bottom: 1px solid #e9ecef; }
-        .notice-icon { width: 40px; height: 40px; background: rgba(67,97,238,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #4361ee; }
+        
+        .notice-item, .timetable-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .notice-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(67,97,238,0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4361ee;
+        }
+        
         .progress-item { margin-bottom: 15px; }
         .progress-info { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
         .progress-bar { height: 8px; background: #e9ecef; border-radius: 10px; overflow: hidden; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, #4361ee, #4cc9f0); border-radius: 10px; transition: width 0.3s; }
-        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .sidebar.active { transform: translateX(0); } .main-content { margin-left: 0; } }
-        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+        
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.active { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .content-grid { grid-template-columns: 1fr; }
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
         @media (max-width: 768px) { .mobile-menu-btn { display: block; } }
     </style>
 </head>
@@ -136,32 +263,64 @@ $user = getUserData($conn, $_SESSION['user_id']);
     <script>
         async function loadDashboard() {
             try {
-                const response = await fetch('../api/attendance.php?action=get_statistics&student_id=<?php echo $user['id']; ?>');
-                const data = await response.json();
-                if(data.success && data.data.length > 0) {
-                    const totalPercent = data.data.reduce((sum, item) => sum + item.percentage, 0) / data.data.length;
-                    document.getElementById('attendancePercent').textContent = Math.round(totalPercent) + '%';
-                    const attendanceHTML = data.data.map(item => `<div class="progress-item"><div class="progress-info"><span>${item.course_name}</span><span>${item.percentage}%</span></div><div class="progress-bar"><div class="progress-fill" style="width: ${item.percentage}%"></div></div></div>`).join('');
-                    document.getElementById('attendanceOverview').innerHTML = attendanceHTML;
-                } else {
-                    document.getElementById('attendanceOverview').innerHTML = '<p>No attendance data available</p>';
-                }
-                
-                const noticesResponse = await fetch('../api/notices.php?action=get_recent');
-                const noticesData = await noticesResponse.json();
-                if(noticesData.success && noticesData.data.length > 0) {
-                    const noticesHTML = noticesData.data.slice(0, 3).map(notice => `<div class="notice-item"><div class="notice-icon"><i class="fas fa-bullhorn"></i></div><div><h4>${notice.title}</h4><p style="font-size:0.8rem;color:#6c757d;">${new Date(notice.created_at).toLocaleDateString()}</p></div></div>`).join('');
-                    document.getElementById('recentNotices').innerHTML = noticesHTML;
-                } else {
-                    document.getElementById('recentNotices').innerHTML = '<p>No notices available</p>';
-                }
-                
-                const timetable = [
-                    { time: '09:00 AM', subject: 'Data Structures', teacher: 'Prof.Aakash Gupta' },
-                    { time: '11:00 AM', subject: 'Database Management', teacher: 'Prof. Neha Shah' },
-                    { time: '02:00 PM', subject: 'Web Development', teacher: 'Dr. Niraj Shah' }
+                // Sample attendance data
+                const attendanceData = [
+                    { subject: 'Data Structures', percent: 85 },
+                    { subject: 'Database Management', percent: 92 },
+                    { subject: 'Web Development', percent: 78 },
+                    { subject: 'Operating Systems', percent: 88 }
                 ];
-                const timetableHTML = timetable.map(item => `<div class="timetable-item"><div class="notice-icon"><i class="fas fa-book"></i></div><div><h4>${item.subject}</h4><p style="font-size:0.8rem;color:#6c757d;">${item.time} • ${item.teacher}</p></div></div>`).join('');
+                
+                const totalPercent = attendanceData.reduce((sum, item) => sum + item.percent, 0) / attendanceData.length;
+                document.getElementById('attendancePercent').textContent = Math.round(totalPercent) + '%';
+                
+                const attendanceHTML = attendanceData.map(item => `
+                    <div class="progress-item">
+                        <div class="progress-info">
+                            <span>${item.subject}</span>
+                            <span>${item.percent}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${item.percent}%"></div>
+                        </div>
+                    </div>
+                `).join('');
+                document.getElementById('attendanceOverview').innerHTML = attendanceHTML;
+                
+                // Sample notices
+                const notices = [
+                    { title: 'End Semester Exam Schedule Released', date: 'Mar 20, 2024' },
+                    { title: 'Project Submission Deadline Extended', date: 'Mar 18, 2024' },
+                    { title: 'Industrial Visit Registration Open', date: 'Mar 15, 2024' }
+                ];
+                
+                const noticesHTML = notices.map(notice => `
+                    <div class="notice-item">
+                        <div class="notice-icon"><i class="fas fa-bullhorn"></i></div>
+                        <div>
+                            <h4>${notice.title}</h4>
+                            <p style="font-size:0.8rem;color:#6c757d;">${notice.date}</p>
+                        </div>
+                    </div>
+                `).join('');
+                document.getElementById('recentNotices').innerHTML = noticesHTML;
+                
+                // Sample timetable
+                const timetable = [
+                    { time: '09:00 AM', subject: 'Data Structures', teacher: 'Dr. Aakash Gupta' },
+                    { time: '11:00 AM', subject: 'Database Management', teacher: 'Prof. Neha Shah' },
+                    { time: '02:00 PM', subject: 'Web Development', teacher: 'Prof. Niraj Mehta' }
+                ];
+                
+                const timetableHTML = timetable.map(item => `
+                    <div class="timetable-item">
+                        <div class="notice-icon"><i class="fas fa-book"></i></div>
+                        <div>
+                            <h4>${item.subject}</h4>
+                            <p style="font-size:0.8rem;color:#6c757d;">${item.time} • ${item.teacher}</p>
+                        </div>
+                    </div>
+                `).join('');
                 document.getElementById('todayTimetable').innerHTML = timetableHTML;
             } catch(error) { console.error('Error:', error); }
         }
